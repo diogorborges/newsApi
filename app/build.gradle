@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion config.compileSdkVersion
     defaultConfig {
@@ -33,6 +35,9 @@ dependencies {
     implementation "androidx.core:core-ktx:${versions.ktx}"
     implementation "com.google.android.material:material:${versions.material}"
     implementation "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}"
+
+    implementation "com.google.dagger:dagger:${versions.dagger}"
+    kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
 
     testImplementation "junit:junit:${versions.jUnit}"
 

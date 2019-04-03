@@ -40,7 +40,8 @@ ext.versions = [
         testRunner      : '1.1.2-alpha02',
         espresso        : '3.1.0-alpha4',
         ktlint          : '0.24.0',
-        ktx             : '1.1.0-alpha05'
+        ktx             : '1.1.0-alpha05',
+        dagger          : '2.13'
 ]
 
 subprojects {
