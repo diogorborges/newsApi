@@ -2,7 +2,6 @@ package com.x0.newsapi.di.module
 
 import android.app.Application
 import android.content.Context
-import android.content.res.Resources
 import com.x0.newsapi.NewsApiApplication
 import dagger.Module
 import dagger.Provides

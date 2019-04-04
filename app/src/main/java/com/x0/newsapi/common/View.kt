@@ -1,4 +1,4 @@
-package com.x0.newsapi
+package com.x0.newsapi.common
 
 import android.os.SystemClock
 import android.view.LayoutInflater

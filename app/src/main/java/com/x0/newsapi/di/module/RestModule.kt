@@ -1,8 +1,8 @@
 package com.x0.newsapi.di.module
 
 import com.google.gson.Gson
-import com.x0.newsapi.data.remote.ApiService
 import com.x0.newsapi.BuildConfig
+import com.x0.newsapi.data.remote.ApiService
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
