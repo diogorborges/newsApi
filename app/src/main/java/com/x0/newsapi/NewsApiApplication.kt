@@ -4,6 +4,7 @@ import android.app.Application
 import com.x0.newsapi.di.component.ApplicationComponent
 import com.x0.newsapi.di.component.DaggerApplicationComponent
 import com.x0.newsapi.di.module.ApplicationModule
+import com.x0.newsapi.di.module.RestModule
 
 class NewsApiApplication : Application() {
 
@@ -21,6 +22,7 @@ class NewsApiApplication : Application() {
 
     private fun setupDagger() {
         applicationComponent = DaggerApplicationComponent.builder()
+            .restModule(RestModule())
             .applicationModule(ApplicationModule(this)).build()
 
         applicationComponent.inject(this)
