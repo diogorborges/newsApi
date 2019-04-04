@@ -28,19 +28,45 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    def uiDependencies = rootProject.ext.uiDependencies
+    def googleDependencies = rootProject.ext.googleDependencies
+    def squareDependencies  = rootProject.ext.squareDependencies
+    def testDependencies = rootProject.ext.testDependencies
+    def loggingDependencies = rootProject.ext.loggingDependencies
+    def rxDependencies = rootProject.ext.rxDependencies
+    def kotlinDependencies = rootProject.ext.kotlinDependencies
 
-    implementation "androidx.appcompat:appcompat:${versions.appcompat}"
-    implementation "androidx.core:core-ktx:${versions.ktx}"
-    implementation "com.google.android.material:material:${versions.material}"
-    implementation "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}"
+    implementation uiDependencies.flexibleAdapter
+    implementation uiDependencies.flexibleAdapterUI
 
-    implementation "com.google.dagger:dagger:${versions.dagger}"
-    kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
+    implementation googleDependencies.appCompat
+    implementation googleDependencies.material
+    implementation googleDependencies.cardView
+    implementation googleDependencies.recyclerView
+    implementation googleDependencies.constraint
 
-    testImplementation "junit:junit:${versions.jUnit}"
+    implementation googleDependencies.dagger
+    kapt googleDependencies.daggerCompiler
 
-    androidTestImplementation "androidx.test:runner:${versions.testRunner}"
-    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espresso}"
+    implementation squareDependencies.retrofit
+    implementation squareDependencies.retrofit2gson
+    implementation squareDependencies.retrofit2rxjavaAdapter
+    implementation squareDependencies.okhttp3
+    implementation squareDependencies.okhttp3logging
+
+    testImplementation testDependencies.mockito
+    testImplementation testDependencies.mockitoInline
+
+    testImplementation testDependencies.testRunner
+    testImplementation testDependencies.junit
+
+    testImplementation testDependencies.json
+
+    implementation loggingDependencies.timber
+
+    implementation rxDependencies.rxJava
+    implementation rxDependencies.rxAndroid
+
+    implementation kotlinDependencies.kotlinStdlib
+    implementation kotlinDependencies.ktx
 }
