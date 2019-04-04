@@ -18,7 +18,4 @@ class ApplicationModule(private val application: NewsApiApplication) {
 
     @Provides
     internal fun provideContext(): Context = application.applicationContext
-
-    @Provides
-    internal fun provideResources(context: Context): Resources = context.resources
 }
