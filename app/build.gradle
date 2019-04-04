@@ -20,6 +20,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildTypes.each {
+        it.buildConfigField 'String', 'NEWS_API_KEY', NewsApikey
+    }
     lintOptions {
         checkAllWarnings true
         warningsAsErrors true
@@ -30,7 +33,7 @@ android {
 dependencies {
     def uiDependencies = rootProject.ext.uiDependencies
     def googleDependencies = rootProject.ext.googleDependencies
-    def squareDependencies  = rootProject.ext.squareDependencies
+    def squareDependencies = rootProject.ext.squareDependencies
     def testDependencies = rootProject.ext.testDependencies
     def loggingDependencies = rootProject.ext.loggingDependencies
     def rxDependencies = rootProject.ext.rxDependencies
