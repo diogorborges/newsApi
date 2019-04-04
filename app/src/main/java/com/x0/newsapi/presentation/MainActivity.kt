@@ -1,5 +1,6 @@
 package com.x0.newsapi.presentation
 
+import android.annotation.SuppressLint
 import android.app.FragmentManager
 import android.os.Bundle
 import android.util.Log
@@ -9,8 +10,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
-import com.x0.newsapi.extension.gone
-import com.x0.newsapi.extension.visible
+import com.x0.newsapi.common.gone
+import com.x0.newsapi.common.visible
 import kotlinx.android.synthetic.main.activity_container.toolbar
 import kotlinx.android.synthetic.main.activity_main.navigation
 
