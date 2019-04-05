@@ -1,4 +1,4 @@
-package com.x0.newsapi.presentation
+package com.x0.newsapi.presentation.favorites
 
 import androidx.fragment.app.Fragment
 

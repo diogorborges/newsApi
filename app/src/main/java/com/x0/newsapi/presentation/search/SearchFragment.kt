@@ -1,4 +1,4 @@
-package com.x0.newsapi.presentation
+package com.x0.newsapi.presentation.search
 
 import androidx.fragment.app.Fragment
 

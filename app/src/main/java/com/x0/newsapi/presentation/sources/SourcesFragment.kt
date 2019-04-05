@@ -1,4 +1,4 @@
-package com.x0.newsapi.presentation
+package com.x0.newsapi.presentation.sources
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
 import com.x0.newsapi.common.inflate
-import com.x0.newsapi.data.remote.ApiService
-import com.x0.newsapi.data.remote.model.sources.SourcesResponse
+import com.x0.newsapi.data.remote.NewApiService
+import com.x0.newsapi.data.model.sources.SourcesResponse
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_sources.messageTextView
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class SourcesFragment : Fragment() {
 
     @Inject
-    lateinit var api: ApiService
+    lateinit var newApi: NewApiService
 
     companion object {
         const val TITLE = "Source"
@@ -49,7 +49,7 @@ class SourcesFragment : Fragment() {
     }
 
     private fun getSources(): Single<SourcesResponse> =
-        api.getSources()
+        newApi.getSources()
 
     private fun onSuccess(sourcesResponse: SourcesResponse) {
         messageTextView.text = "Sources ${sourcesResponse.status}"

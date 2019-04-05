@@ -1,6 +1,5 @@
 package com.x0.newsapi.presentation
 
-import android.annotation.SuppressLint
 import android.app.FragmentManager
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +11,9 @@ import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
 import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.visible
+import com.x0.newsapi.presentation.favorites.FavoritesFragment
+import com.x0.newsapi.presentation.search.SearchFragment
+import com.x0.newsapi.presentation.sources.SourcesFragment
 import kotlinx.android.synthetic.main.activity_container.toolbar
 import kotlinx.android.synthetic.main.activity_main.navigation
 
