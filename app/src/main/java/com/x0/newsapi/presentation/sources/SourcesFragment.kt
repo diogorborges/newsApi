@@ -9,17 +9,14 @@ import androidx.fragment.app.Fragment
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
 import com.x0.newsapi.common.inflate
-import com.x0.newsapi.data.remote.NewApiService
-import com.x0.newsapi.data.model.sources.SourcesResponse
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import com.x0.newsapi.data.model.sources.Source
 import kotlinx.android.synthetic.main.fragment_sources.messageTextView
 import javax.inject.Inject
 
-class SourcesFragment : Fragment() {
+class SourcesFragment : Fragment(), SourcesContract.View {
 
     @Inject
-    lateinit var newApi: NewApiService
+    lateinit var presenter: SourcesPresenter
 
     companion object {
         const val TITLE = "Source"
@@ -42,21 +39,23 @@ class SourcesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getSources()
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .subscribe(::onSuccess, ::onError)
+        presenter.setView(this)
     }
 
-    private fun getSources(): Single<SourcesResponse> =
-        newApi.getSources()
-
-    private fun onSuccess(sourcesResponse: SourcesResponse) {
-        messageTextView.text = "Sources ${sourcesResponse.status}"
+    override fun showLoader(show: Boolean) {
     }
 
-    private fun onError(throwable: Throwable) {
-        throwable.message?.let { messageTextView.text = "Error $it" }
+    override fun showSources(sourceList: ArrayList<Source>) {
+        messageTextView.text = "Sources ${sourceList}"
     }
+
+    override fun changeFavoriteStatus(position: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showError(message: String?) {
+        message?.let { messageTextView.text = "Error $it" }
+    }
+
 
 }
