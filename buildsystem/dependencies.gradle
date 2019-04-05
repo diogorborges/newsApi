@@ -15,10 +15,11 @@ ext {
     rxAndroidVersion = '2.1.0'
     jsonVersion = '20140107'
     ktxVersion = '1.1.0-alpha05'
+    roomVersion = '2.0.0-rc01'
 
     uiDependencies = [
             flexibleAdapter  : "eu.davidea:flexible-adapter:${flexibleAdapterVersion}",
-            flexibleAdapterUI: "eu.davidea:flexible-adapter-ui:${flexibleAdapterUIVersion}",  \
+            flexibleAdapterUI: "eu.davidea:flexible-adapter-ui:${flexibleAdapterUIVersion}"
     ]
 
     googleDependencies = [
@@ -29,6 +30,8 @@ ext {
             constraint    : "androidx.constraintlayout:constraintlayout:$constraintVersion",
             dagger        : "com.google.dagger:dagger:$daggerVersion",
             daggerCompiler: "com.google.dagger:dagger-compiler:$daggerVersion",
+            roomCompiler  : "androidx.room:room-compiler:$roomVersion",
+            roomRunTime   : "androidx.room:room-runtime:$roomVersion"
     ]
 
     squareDependencies = [

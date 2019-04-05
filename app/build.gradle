@@ -47,6 +47,8 @@ dependencies {
     implementation googleDependencies.cardView
     implementation googleDependencies.recyclerView
     implementation googleDependencies.constraint
+    implementation googleDependencies.roomRunTime
+    kapt googleDependencies.roomCompiler
 
     implementation googleDependencies.dagger
     kapt googleDependencies.daggerCompiler

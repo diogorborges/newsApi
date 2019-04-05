@@ -1,11 +1,11 @@
 package com.x0.newsapi.di.component
 
 import com.x0.newsapi.NewsApiApplication
-import com.x0.newsapi.data.remote.ApiService
+import com.x0.newsapi.data.remote.NewApiService
 import com.x0.newsapi.di.module.ApplicationModule
 import com.x0.newsapi.di.module.RestModule
 import com.x0.newsapi.presentation.MainActivity
-import com.x0.newsapi.presentation.SourcesFragment
+import com.x0.newsapi.presentation.sources.SourcesFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @Component(modules = [ApplicationModule::class, RestModule::class])
 interface ApplicationComponent {
 
-    fun apiService(): ApiService
+    fun apiService(): NewApiService
 
     fun inject(application: NewsApiApplication)
 

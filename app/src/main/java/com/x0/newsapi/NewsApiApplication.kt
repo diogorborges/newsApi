@@ -22,7 +22,7 @@ class NewsApiApplication : Application() {
 
     private fun setupDagger() {
         applicationComponent = DaggerApplicationComponent.builder()
-            .restModule(RestModule())
+            .restModule(RestModule(this))
             .applicationModule(ApplicationModule(this)).build()
 
         applicationComponent.inject(this)
