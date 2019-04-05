@@ -10,13 +10,13 @@ import io.reactivex.Single
 @Dao
 interface SourcesDao {
     @Query("SELECT * from sources WHERE isFavorite =:isFavorite")
-    fun getFavoriteSources(isFavorite: Boolean): Single<ArrayList<Source>>
+    fun getFavoriteSources(isFavorite: Boolean): Single<List<Source>>
 
     @Query("UPDATE sources SET isFavorite =:isFavorite WHERE id =:sourceId")
     fun updateFavoriteSource(sourceId: String, isFavorite: Boolean)
 
     @Query("SELECT * from sources")
-    fun getSources(): Single<ArrayList<Source>>
+    fun getSources(): Single<List<Source>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSources(vararg sources: Source)

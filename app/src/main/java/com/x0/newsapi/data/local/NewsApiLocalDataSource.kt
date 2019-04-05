@@ -8,15 +8,15 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
-class NewsApiLocalDataSource @Inject constructor(val sourcesDao: SourcesDao) : NewsApiDataSource {
+class NewsApiLocalDataSource @Inject constructor(private val sourcesDao: SourcesDao) : NewsApiDataSource {
 
     override fun getFavoriteSources(isFavorite: Boolean): Single<ArrayList<Source>> =
-        sourcesDao.getFavoriteSources(isFavorite)
+        sourcesDao.getFavoriteSources(isFavorite).map { ArrayList(it) }
 
     override fun updateFavoriteSource(newsId: String, isFavorite: Boolean): Completable =
         Completable.fromAction { sourcesDao.updateFavoriteSource(newsId, isFavorite) }
 
-    override fun getSources(): Single<ArrayList<Source>> = sourcesDao.getSources()
+    override fun getSources(): Single<ArrayList<Source>> = sourcesDao.getSources().map { ArrayList(it) }
 
     override fun insertSources(vararg sources: Source): Completable =
         Completable.fromAction { sourcesDao.insertSources(*sources) }
