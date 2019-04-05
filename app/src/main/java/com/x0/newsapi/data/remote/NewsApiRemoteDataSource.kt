@@ -8,7 +8,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
-class NewsApiRemoteDataSource @Inject constructor(val newApiService: NewApiService) :
+class NewsApiRemoteDataSource @Inject constructor(private val newApiService: NewApiService) :
     NewsApiDataSource {
 
     override fun getFavoriteSources(isFavorite: Boolean): Single<ArrayList<Source>> =
