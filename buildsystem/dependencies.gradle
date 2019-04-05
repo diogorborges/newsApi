@@ -10,7 +10,6 @@ ext {
     mockitoInlineVersion = '2.13.0'
     testrunnerVersion = '1.1.2-alpha02'
     junitVersion = '4.12'
-    timberVersion = '4.7.1'
     rxJavaVersion = '2.2.1'
     rxAndroidVersion = '2.1.0'
     jsonVersion = '20140107'
@@ -31,7 +30,8 @@ ext {
             dagger        : "com.google.dagger:dagger:$daggerVersion",
             daggerCompiler: "com.google.dagger:dagger-compiler:$daggerVersion",
             roomCompiler  : "androidx.room:room-compiler:$roomVersion",
-            roomRunTime   : "androidx.room:room-runtime:$roomVersion"
+            roomRunTime   : "androidx.room:room-runtime:$roomVersion",
+            roomRx        : "androidx.room:room-rxjava2:$roomVersion"
     ]
 
     squareDependencies = [
@@ -48,10 +48,6 @@ ext {
             testRunner   : "androidx.test:runner:$testrunnerVersion",
             junit        : "junit:junit:$junitVersion",
             json         : "org.json:json:$jsonVersion"
-    ]
-
-    loggingDependencies = [
-            timber: "com.jakewharton.timber:timber:$timberVersion"
     ]
 
     rxDependencies = [

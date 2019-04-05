@@ -35,7 +35,6 @@ dependencies {
     def googleDependencies = rootProject.ext.googleDependencies
     def squareDependencies = rootProject.ext.squareDependencies
     def testDependencies = rootProject.ext.testDependencies
-    def loggingDependencies = rootProject.ext.loggingDependencies
     def rxDependencies = rootProject.ext.rxDependencies
     def kotlinDependencies = rootProject.ext.kotlinDependencies
 
@@ -48,6 +47,7 @@ dependencies {
     implementation googleDependencies.recyclerView
     implementation googleDependencies.constraint
     implementation googleDependencies.roomRunTime
+    implementation googleDependencies.roomRx
     kapt googleDependencies.roomCompiler
 
     implementation googleDependencies.dagger
@@ -67,11 +67,11 @@ dependencies {
 
     testImplementation testDependencies.json
 
-    implementation loggingDependencies.timber
-
     implementation rxDependencies.rxJava
     implementation rxDependencies.rxAndroid
 
     implementation kotlinDependencies.kotlinStdlib
     implementation kotlinDependencies.ktx
 }
+
+apply plugin: 'kotlin-android-extensions'
