@@ -27,7 +27,7 @@ task clean(type: Delete) {
 }
 
 ext.config = [
-        minSdkVersion    : 19,
+        minSdkVersion    : 21,
         compileSdkVersion: 28,
         targetSdkVersion : 28
 ]
