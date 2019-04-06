@@ -12,7 +12,7 @@ import com.x0.newsapi.R
 import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.visible
 import com.x0.newsapi.presentation.favorites.FavoritesFragment
-import com.x0.newsapi.presentation.search.SearchFragment
+import com.x0.newsapi.presentation.news.NewsFragment
 import com.x0.newsapi.presentation.sources.SourcesFragment
 import kotlinx.android.synthetic.main.activity_container.toolbar
 import kotlinx.android.synthetic.main.activity_main.navigation
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener,
     BottomNavigationView.OnNavigationItemReselectedListener {
 
-    private var title: String = SourcesFragment.TITLE
+    private var title: String = NewsFragment.TITLE
     private lateinit var fragment: Fragment
 
     companion object {
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(),
         title = savedInstanceState?.getString(TITLE_KEY) ?: title
 
         if (supportFragmentManager.findFragmentByTag(FRAGMENT_KEY) == null) {
-            changeFragment(SourcesFragment())
+            changeFragment(NewsFragment())
         }
     }
 
@@ -54,9 +54,9 @@ class MainActivity : AppCompatActivity(),
                 title = SourcesFragment.TITLE
                 fragment = SourcesFragment()
             }
-            R.id.navigation_search -> {
-                title = SearchFragment.TITLE
-                fragment = SearchFragment()
+            R.id.navigation_news -> {
+                title = NewsFragment.TITLE
+                fragment = NewsFragment()
             }
             R.id.navigation_favorites -> {
                 title = FavoritesFragment.TITLE

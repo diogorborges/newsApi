@@ -1,4 +1,4 @@
-package com.x0.newsapi.presentation.sources
+package com.x0.newsapi.presentation.news
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,22 +9,22 @@ import androidx.fragment.app.Fragment
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
 import com.x0.newsapi.common.inflate
-import com.x0.newsapi.data.model.sources.Source
+import com.x0.newsapi.data.model.news.Article
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
-import kotlinx.android.synthetic.main.fragment_sources.messageText
+import kotlinx.android.synthetic.main.fragment_news.messageText
 import javax.inject.Inject
 
-class SourcesFragment : Fragment(), SourcesContract.View {
+class NewsFragment : Fragment(), NewsContract.View {
 
     @Inject
-    lateinit var presenter: SourcesPresenter
+    lateinit var presenter: NewsPresenter
 
     private lateinit var adapter: FlexibleAdapter<AbstractFlexibleItem<*>>
 
     companion object {
-        const val TITLE = "Source"
-        private const val TAG = "SourcesFragment"
+        const val TITLE = "News"
+        private const val TAG = "NewsFragment"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,8 +59,8 @@ class SourcesFragment : Fragment(), SourcesContract.View {
     override fun showLoader(show: Boolean) {
     }
 
-    override fun showSources(sourceList: ArrayList<Source>) {
-        messageText.text = "Sources ${sourceList}"
+    override fun showNews(newsList: ArrayList<Article>) {
+        messageText.text = "News $newsList"
     }
 
     override fun changeFavoriteStatus(position: Int) {

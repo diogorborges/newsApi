@@ -6,8 +6,7 @@ import android.os.Parcelable
 data class NewsResponse(
     val status: String,
     val totalResults: Int,
-    val articles: ArrayList<Article>
-) : Parcelable {
+    val articles: ArrayList<Article>) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readInt(),
