@@ -11,7 +11,6 @@ import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
 import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.visible
-import com.x0.newsapi.presentation.favorites.FavoritesFragment
 import com.x0.newsapi.presentation.news.NewsFragment
 import com.x0.newsapi.presentation.sources.SourcesFragment
 import kotlinx.android.synthetic.main.activity_container.toolbar
@@ -57,10 +56,6 @@ class MainActivity : AppCompatActivity(),
             R.id.navigation_news -> {
                 title = NewsFragment.TITLE
                 fragment = NewsFragment()
-            }
-            R.id.navigation_favorites -> {
-                title = FavoritesFragment.TITLE
-                fragment = FavoritesFragment()
             }
         }
 
