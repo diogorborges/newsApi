@@ -22,6 +22,7 @@ class NewsPresenter @Inject constructor(
     private val openNewsDetailsObserver = PublishSubject.create<Article>()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private lateinit var view: NewsContract.View
+
     private var pageNumber: Int = 0
 
     companion object {
@@ -66,27 +67,22 @@ class NewsPresenter @Inject constructor(
     }
 
     private fun onSuccess(newsList: ArrayList<Article>) {
+        view.showLoader(false)
         view.showNews(prepareListNewsList(newsList))
     }
 
     private fun prepareListNewsList(newsList: ArrayList<Article>): List<AbstractFlexibleItem<*>> {
-        val listItems = java.util.ArrayList<AbstractFlexibleItem<*>>()
+        val listItems = ArrayList<AbstractFlexibleItem<*>>()
 
+        val listHeader = ListHeader(R.string.news_header, R.layout.list_header)
         newsList.forEach {
-            listItems.add(
-                NewsListItem(
-                    ListHeader(
-                        R.layout.list_header,
-                        R.string.news_header
-                    ), it, openNewsDetailsObserver
-                )
-            )
+            listItems.add(NewsListItem(listHeader, it, openNewsDetailsObserver))
         }
 
         return listItems
     }
 
     private fun onError(throwable: Throwable) {
-        view.showError(throwable.message)
+        view.showLoader(false)
     }
 }

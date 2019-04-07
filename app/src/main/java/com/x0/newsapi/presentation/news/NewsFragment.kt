@@ -9,11 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
+import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.inflate
+import com.x0.newsapi.common.visible
 import com.x0.newsapi.data.model.news.Article
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import kotlinx.android.synthetic.main.fragment_sources.newsList
+import kotlinx.android.synthetic.main.progress_bar.loadingProgressBar
 import javax.inject.Inject
 
 class NewsFragment : Fragment(), NewsContract.View {
@@ -38,7 +41,7 @@ class NewsFragment : Fragment(), NewsContract.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? =
-        container?.inflate(R.layout.fragment_sources)
+        container?.inflate(R.layout.fragment_news)
 
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,16 +51,18 @@ class NewsFragment : Fragment(), NewsContract.View {
     }
 
     private fun setupUI() {
-        adapter = FlexibleAdapter(java.util.ArrayList<AbstractFlexibleItem<*>>())
+        adapter = FlexibleAdapter(ArrayList<AbstractFlexibleItem<*>>())
         adapter.setDisplayHeadersAtStartUp(true)
         adapter.isAnimateChangesWithDiffUtil = true
 
         newsList.adapter = adapter
         newsList.layoutManager = LinearLayoutManager(context)
-        newsList.isNestedScrollingEnabled = false
+        newsList.isNestedScrollingEnabled = true
     }
 
-    override fun showLoader(show: Boolean) {
+    override fun showLoader(show: Boolean) = when (show) {
+        true -> loadingProgressBar.visible()
+        else -> loadingProgressBar.gone()
     }
 
     override fun showNews(newsList: List<AbstractFlexibleItem<*>>) {

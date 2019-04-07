@@ -2,12 +2,18 @@ package com.x0.newsapi.presentation
 
 import android.view.View
 import com.x0.newsapi.R
+import com.x0.newsapi.common.clickWithDebounce
+import com.x0.newsapi.common.gone
 import com.x0.newsapi.data.model.news.Article
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 import io.reactivex.subjects.Subject
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.item_news.descriptionText
+import kotlinx.android.synthetic.main.item_news.sourceTitleText
+import kotlinx.android.synthetic.main.item_news.urlText
 
 class NewsListItem(
     listHeader: ListHeader,
@@ -54,8 +60,8 @@ class NewsListItem(
 
         private fun setDescriptionText(article: Article) = with(descriptionText) {
             article.description?.let {
-                text = article.url
-            } ?: ""
+                text = article.description
+            } ?: gone()
         }
 
         private fun setUrlText(article: Article) = with(urlText) {
@@ -65,7 +71,7 @@ class NewsListItem(
         private fun setOpenArticleDetails(
             article: Article,
             openNewsDetailsObserver: Subject<Article>
-        ) = clickWithDebounce {
+        ) = containerView?.clickWithDebounce {
             openNewsDetailsObserver.onNext(article)
         }
     }

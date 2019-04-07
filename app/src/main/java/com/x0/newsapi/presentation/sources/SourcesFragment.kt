@@ -12,7 +12,6 @@ import com.x0.newsapi.common.inflate
 import com.x0.newsapi.data.model.sources.Source
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
-import kotlinx.android.synthetic.main.fragment_news.messageText
 import javax.inject.Inject
 
 class SourcesFragment : Fragment(), SourcesContract.View {
@@ -60,7 +59,6 @@ class SourcesFragment : Fragment(), SourcesContract.View {
     }
 
     override fun showSources(sourceList: ArrayList<Source>) {
-        messageText.text = "Sources ${sourceList}"
     }
 
     override fun changeFavoriteStatus(position: Int) {
@@ -68,7 +66,6 @@ class SourcesFragment : Fragment(), SourcesContract.View {
     }
 
     override fun showError(message: String?) {
-        message?.let { messageText.text = "Error $it" }
     }
 
 }

@@ -6,14 +6,11 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractHeaderItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.list_header.listHeader
 
 class ListHeader(private val headerStringId: Int, private val headerLayoutId: Int) :
     AbstractHeaderItem<ListHeader.ViewHolder>() {
-
-    init {
-        isEnabled = false
-        isSelectable = false
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other is ListHeader) return this.headerStringId == other.headerStringId
