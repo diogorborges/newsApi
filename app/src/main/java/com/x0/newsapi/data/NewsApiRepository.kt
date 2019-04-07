@@ -2,6 +2,7 @@ package com.x0.newsapi.data
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.TextUtils.isEmpty
 import android.util.Log
 import com.x0.newsapi.common.ListUtils
 import com.x0.newsapi.common.hasNetwork
@@ -22,20 +23,21 @@ class NewsApiRepository @Inject constructor(
     private val context: Context
 ) : NewsApiDataSource {
 
+    companion object {
+        private const val TAG = "NewsApiRepository"
+        private const val IS_EMPTY = 0
+        private const val MAX_LIMIT = 100
+    }
+
     fun getNews(nextPage: Int): Single<ArrayList<Article>> =
         newsApiLocalDataSource.getNews()
             .flatMap {
-                if (it.isNotEmpty()) {
-                    Log.i(TAG, "Dispatching ${it.size} news from DB...")
-                    return@flatMap mergeNews(it, nextPage)
-                } else {
-                    return@flatMap fetchAndPersistNews(nextPage)
+                when(it.size) {
+                    IS_EMPTY -> return@flatMap fetchAndPersistNews(nextPage)
+                    MAX_LIMIT -> return@flatMap Single.just(it)
+                    else -> return@flatMap mergeNews(it, nextPage)
                 }
             }
-
-    companion object {
-        const val TAG = "NewsApiRepository"
-    }
 
     override fun getFavoriteSources(isFavorite: Boolean): Single<ArrayList<Source>> =
         newsApiLocalDataSource.getFavoriteSources(isFavorite)
