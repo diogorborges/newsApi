@@ -15,18 +15,13 @@ class NewsApiRemoteDataSource @Inject constructor(private val newApiService: New
     override fun getFavoriteSources(isFavorite: Boolean): Single<ArrayList<Source>> =
         Single.error(RemoteDataNotFoundException())
 
-    override fun updateFavoriteSource(newsId: String, isFavorite: Boolean): Completable =
-        Completable.complete()
-
     override fun getSources(): Single<ArrayList<Source>> =
         newApiService.getSources().map { it.sources }
 
     override fun insertSources(vararg sources: Source): Completable = Completable.complete()
 
-    override fun deleteSources(): Completable = Completable.complete()
-
-    fun getNews(page: Int): Single<NewsResponse> =
-        newApiService.getNews(page)
+    fun getNews(nextPage: Int): Single<NewsResponse> =
+        newApiService.getNews(nextPage)
 
     override fun getSourceById(sources: String): Single<NewsResponse> =
         newApiService.getSourceById(sources)

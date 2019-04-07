@@ -13,11 +13,10 @@ data class Article(
     val source: ArticleSource,
     val author: String?,
     val title: String,
-    val description: String,
+    val description: String? = "",
     val url: String,
-    val urlToImage: String,
-    val publishedAt: String,
-    @PrimaryKey @ColumnInfo(name = "pageNumber") var pageNumber: Int = 0
+    val urlToImage: String?,
+    @PrimaryKey @ColumnInfo(name = "id") val publishedAt: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         ArticleSource.dataFromString(parcel.readString()),

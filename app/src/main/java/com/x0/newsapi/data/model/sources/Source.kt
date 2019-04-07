@@ -42,13 +42,9 @@ data class Source(
     }
 
     companion object CREATOR : Parcelable.Creator<Source> {
-        override fun createFromParcel(parcel: Parcel): Source {
-            return Source(parcel)
-        }
+        override fun createFromParcel(parcel: Parcel): Source = Source(parcel)
 
-        override fun newArray(size: Int): Array<Source?> {
-            return arrayOfNulls(size)
-        }
+        override fun newArray(size: Int): Array<Source?> = arrayOfNulls(size)
     }
 
 }
