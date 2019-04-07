@@ -28,6 +28,9 @@ android {
         warningsAsErrors true
         baseline file("lint-baseline.xml")
     }
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
