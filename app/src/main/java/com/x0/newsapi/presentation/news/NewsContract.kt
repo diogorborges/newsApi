@@ -1,19 +1,19 @@
 package com.x0.newsapi.presentation.news
 
 import com.x0.newsapi.data.model.news.Article
+import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 
 interface NewsContract {
 
     interface View {
         fun showLoader(show: Boolean)
-        fun showNews(newsList: ArrayList<Article>)
-        fun changeFavoriteStatus(position: Int)
+        fun showNews(newsList: List<AbstractFlexibleItem<*>>)
         fun showError(message: String?)
+        fun onNewsDetailsClicked(article: Article)
     }
 
     interface Presenter {
         fun refreshList()
-        fun updateFavoriteStatus(news: Article, position: Int)
         fun setView(newsFragment: NewsFragment)
     }
 }

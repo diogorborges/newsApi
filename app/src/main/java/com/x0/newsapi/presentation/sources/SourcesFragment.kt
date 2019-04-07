@@ -12,7 +12,7 @@ import com.x0.newsapi.common.inflate
 import com.x0.newsapi.data.model.sources.Source
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
-import kotlinx.android.synthetic.main.fragment_sources.messageText
+import kotlinx.android.synthetic.main.fragment_news.messageText
 import javax.inject.Inject
 
 class SourcesFragment : Fragment(), SourcesContract.View {

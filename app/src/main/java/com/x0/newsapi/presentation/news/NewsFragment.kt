@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
 import com.x0.newsapi.common.inflate
 import com.x0.newsapi.data.model.news.Article
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
-import kotlinx.android.synthetic.main.fragment_news.messageText
+import kotlinx.android.synthetic.main.fragment_sources.newsList
 import javax.inject.Inject
 
 class NewsFragment : Fragment(), NewsContract.View {
@@ -47,28 +48,26 @@ class NewsFragment : Fragment(), NewsContract.View {
     }
 
     private fun setupUI() {
-//        adapter = FlexibleAdapter(java.util.ArrayList<AbstractFlexibleItem<*>>())
-//        adapter.setDisplayHeadersAtStartUp(true)
-//        adapter.isAnimateChangesWithDiffUtil = true
-//
-//        taskList.adapter = adapter
-//        taskList.layoutManager = LinearLayoutManager(context)
-//        taskList.isNestedScrollingEnabled = false
+        adapter = FlexibleAdapter(java.util.ArrayList<AbstractFlexibleItem<*>>())
+        adapter.setDisplayHeadersAtStartUp(true)
+        adapter.isAnimateChangesWithDiffUtil = true
+
+        newsList.adapter = adapter
+        newsList.layoutManager = LinearLayoutManager(context)
+        newsList.isNestedScrollingEnabled = false
     }
 
     override fun showLoader(show: Boolean) {
     }
 
-    override fun showNews(newsList: ArrayList<Article>) {
-        messageText.text = "News $newsList"
-    }
-
-    override fun changeFavoriteStatus(position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun showNews(newsList: List<AbstractFlexibleItem<*>>) {
+        adapter.updateDataSet(newsList)
     }
 
     override fun showError(message: String?) {
-        message?.let { messageText.text = "Error $it" }
+    }
+
+    override fun onNewsDetailsClicked(article: Article) {
     }
 
 }
