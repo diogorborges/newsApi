@@ -10,6 +10,5 @@ import com.x0.newsapi.data.model.sources.Source
 @TypeConverters(Article.ArticleSource::class)
 abstract class NewsApiDatabase : RoomDatabase() {
     abstract fun sourcesDao(): SourcesDao
-
     abstract fun newsDao(): NewsDao
 }

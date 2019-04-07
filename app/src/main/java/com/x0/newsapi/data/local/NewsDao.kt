@@ -10,15 +10,12 @@ import io.reactivex.Single
 
 @Dao
 interface NewsDao {
-    @Query("SELECT * from news WHERE pageNumber =:pageNumber")
-    fun getNews(pageNumber: Int): Single<List<Article>>
+    @Query("SELECT * from news")
+    fun getNews(): Single<List<Article>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNews(vararg news: Article)
 
     @Query("DELETE FROM news")
     fun deleteNews()
-
-    @Query("UPDATE news SET pageNumber =:nextPage WHERE pageNumber =:previousPage")
-    fun updatePageNumber(nextPage: Int, previousPage: Int)
 }
