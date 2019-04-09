@@ -17,9 +17,9 @@ import com.x0.newsapi.common.visible
 import com.x0.newsapi.data.model.news.Article
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import kotlinx.android.synthetic.main.fragment_news.newsList
+import kotlinx.android.synthetic.main.fragment_news.progressBarLayout
 import kotlinx.android.synthetic.main.fragment_news.swipeRefresh
-import kotlinx.android.synthetic.main.fragment_sources.newsList
-import kotlinx.android.synthetic.main.progress_bar.loadingProgressBar
 import javax.inject.Inject
 
 class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
@@ -57,7 +57,6 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
         swipeRefresh.setOnRefreshListener(this)
 
         adapter = FlexibleAdapter(ArrayList<AbstractFlexibleItem<*>>())
-        adapter.setDisplayHeadersAtStartUp(true)
         adapter.isAnimateChangesWithDiffUtil = true
 
         newsList.adapter = adapter
@@ -71,7 +70,7 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
         isRefreshing = show
     }
 
-    override fun showLoader(show: Boolean) = with(loadingProgressBar) {
+    override fun showLoader(show: Boolean) = with(progressBarLayout) {
         when (show) {
             true -> visible()
             else -> gone()

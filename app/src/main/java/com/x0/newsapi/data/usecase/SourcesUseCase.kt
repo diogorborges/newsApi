@@ -7,6 +7,6 @@ import javax.inject.Inject
 
 class SourcesUseCase @Inject constructor(private val newsApiRepository: NewsApiRepository) {
 
-    fun getSources(): Single<ArrayList<Source>> = newsApiRepository.getSources()
+    fun getSources(refreshing: Boolean): Single<ArrayList<Source>> = newsApiRepository.getSources()
 
 }

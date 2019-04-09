@@ -1,47 +1,89 @@
 package com.x0.newsapi.presentation.sources
 
+import android.util.Log
+import com.x0.newsapi.R
 import com.x0.newsapi.common.addTo
 import com.x0.newsapi.data.model.sources.Source
 import com.x0.newsapi.data.usecase.SourcesUseCase
+import com.x0.newsapi.presentation.ListHeader
+import com.x0.newsapi.presentation.SourcesListItem
+import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class SourcesPresenter @Inject constructor(
     private val sourceUseCase: SourcesUseCase
 ) : SourcesContract.Presenter {
 
+    private val openSourceObserver = PublishSubject.create<Source>()
+
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private lateinit var view: SourcesContract.View
 
-    override fun setView(sourcesFragment: SourcesFragment) {
-        view = sourcesFragment
-        getSources()
+    private var isRefreshing: Boolean = false
+
+    companion object {
+        private const val TAG = "SourcesPresenter"
     }
 
-    private fun getSources() {
-        view.showLoader(true)
-        val disposable = sourceUseCase.getSources()
+    override fun setView(sourcesFragment: SourcesFragment) {
+        view = sourcesFragment
+        setupOpenSourceChangedEvent()
+        getSources(false)
+    }
+
+    private fun setupOpenSourceChangedEvent(): Disposable =
+        openSourceObserver
+            .subscribe(
+                { view.onSourceClicked(it) },
+                { Log.e(TAG, "Error: $it") })
+
+    private fun getSources(isRefreshing: Boolean) {
+        this.isRefreshing = isRefreshing
+
+        val disposable = sourceUseCase.getSources(isRefreshing)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                setLoaders(isRefreshing, showLoader = true)
+            }
+            .doAfterTerminate {
+                setLoaders(isRefreshing, showLoader = false)
+            }
             .subscribe(this::onSuccess, this::onError)
         disposable.addTo(compositeDisposable)
     }
 
-    override fun refreshList() {
-        getSources()
+    private fun setLoaders(isRefreshing: Boolean, showLoader: Boolean) = when (isRefreshing) {
+        true -> view.showRefreshing(showLoader)
+        else -> view.showLoader(showLoader)
     }
 
+    override fun refreshList() = getSources(isRefreshing = true)
+
+
     private fun onSuccess(sourceList: ArrayList<Source>) {
-        view.showSources(sourceList)
+        if (isRefreshing) view.clearSourcesList()
+
+        view.showSources(prepareListNewsList(sourceList))
+    }
+
+    private fun prepareListNewsList(sourceList: ArrayList<Source>): List<AbstractFlexibleItem<*>> {
+        val listItems = ArrayList<AbstractFlexibleItem<*>>()
+
+        val listHeader = ListHeader(R.string.sources_header, R.layout.list_header)
+        sourceList.forEach {
+            listItems.add(SourcesListItem(listHeader, it, openSourceObserver))
+        }
+
+        return listItems
     }
 
     private fun onError(throwable: Throwable) {
         view.showError(throwable.message)
-    }
-
-    override fun updateFavoriteStatus(source: Source, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

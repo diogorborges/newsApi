@@ -21,6 +21,7 @@ class NewsPresenter @Inject constructor(
 
     private val openNewsDetailsObserver = PublishSubject.create<Article>()
     private val loadMoreNewsObserver = PublishSubject.create<Article>()
+
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private lateinit var view: NewsContract.View
 

@@ -2,19 +2,28 @@ package com.x0.newsapi.presentation.sources
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
+import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.inflate
+import com.x0.newsapi.common.visible
 import com.x0.newsapi.data.model.sources.Source
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import kotlinx.android.synthetic.main.fragment_sources.progressBarLayout
+import kotlinx.android.synthetic.main.fragment_sources.sourcesList
+import kotlinx.android.synthetic.main.fragment_sources.swipeRefresh
 import javax.inject.Inject
 
-class SourcesFragment : Fragment(), SourcesContract.View {
+class SourcesFragment : Fragment(), SourcesContract.View, SwipeRefreshLayout.OnRefreshListener {
+
 
     @Inject
     lateinit var presenter: SourcesPresenter
@@ -22,7 +31,7 @@ class SourcesFragment : Fragment(), SourcesContract.View {
     private lateinit var adapter: FlexibleAdapter<AbstractFlexibleItem<*>>
 
     companion object {
-        const val TITLE = "Source"
+        const val TITLE = "Sources"
         private const val TAG = "SourcesFragment"
     }
 
@@ -46,26 +55,41 @@ class SourcesFragment : Fragment(), SourcesContract.View {
     }
 
     private fun setupUI() {
-//        adapter = FlexibleAdapter(java.util.ArrayList<AbstractFlexibleItem<*>>())
-//        adapter.setDisplayHeadersAtStartUp(true)
-//        adapter.isAnimateChangesWithDiffUtil = true
-//
-//        taskList.adapter = adapter
-//        taskList.layoutManager = LinearLayoutManager(context)
-//        taskList.isNestedScrollingEnabled = false
+        swipeRefresh.setOnRefreshListener(this)
+
+        adapter = FlexibleAdapter(ArrayList<AbstractFlexibleItem<*>>())
+        adapter.isAnimateChangesWithDiffUtil = true
+
+        sourcesList.adapter = adapter
+        sourcesList.layoutManager = GridLayoutManager(context, 2)
+        sourcesList.isNestedScrollingEnabled = true
     }
 
-    override fun showLoader(show: Boolean) {
+    override fun onRefresh() = presenter.refreshList()
+
+    override fun showRefreshing(show: Boolean) = with(swipeRefresh) {
+        isRefreshing = show
     }
 
-    override fun showSources(sourceList: ArrayList<Source>) {
-    }
-
-    override fun changeFavoriteStatus(position: Int) {
+    override fun onSourceClicked(source: Source) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showError(message: String?) {
+    override fun showLoader(show: Boolean) = with(progressBarLayout) {
+        when (show) {
+            true -> visible()
+            else -> gone()
+        }
     }
 
+    override fun clearSourcesList() = adapter.clear()
+
+    override fun showSources(sourcesList: List<AbstractFlexibleItem<*>>) =
+        adapter.updateDataSet(sourcesList)
+
+    override fun showError(message: String?) {
+        message?.let {
+            Log.e(TAG, "Error: $it")
+        }
+    }
 }

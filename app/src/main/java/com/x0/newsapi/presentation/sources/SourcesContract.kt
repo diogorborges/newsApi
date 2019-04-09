@@ -1,19 +1,21 @@
 package com.x0.newsapi.presentation.sources
 
 import com.x0.newsapi.data.model.sources.Source
+import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 
 interface SourcesContract {
 
     interface View {
         fun showLoader(show: Boolean)
-        fun showSources(sourceList: ArrayList<Source>)
-        fun changeFavoriteStatus(position: Int)
+        fun showSources(sourcesList: List<AbstractFlexibleItem<*>>)
         fun showError(message: String?)
+        fun onSourceClicked(source: Source)
+        fun clearSourcesList()
+        fun showRefreshing(show: Boolean)
     }
 
     interface Presenter {
         fun refreshList()
-        fun updateFavoriteStatus(source: Source, position: Int)
         fun setView(sourcesFragment: SourcesFragment)
     }
 }

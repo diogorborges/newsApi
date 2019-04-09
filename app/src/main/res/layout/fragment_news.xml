@@ -22,7 +22,6 @@
                 android:id="@+id/newsList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fastScrollEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -33,6 +32,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
+        android:id="@+id/progressBarLayout"
         layout="@layout/progress_bar"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

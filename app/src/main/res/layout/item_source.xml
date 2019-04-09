@@ -1,19 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/itemTripFlowCardView"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="@dimen/default_margin_size"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/default_margin_size"
-    android:layout_marginTop="16dp"
-    android:layout_marginEnd="@dimen/default_margin_size"
     app:cardCornerRadius="4dp">
 
-    <androidx.constraintlayout.widget.Constraints
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/default_margin_size">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin_size">
 
-    </androidx.constraintlayout.widget.Constraints>
+        <TextView
+            android:id="@+id/sourceTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/small_margin_size"
+            android:textColor="#000"
+            android:textSize="@dimen/large_text_size"
+            app:layout_constraintBottom_toTopOf="@+id/descriptionText"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Trip #25 • 2 orders batch" />
+
+        <TextView
+            android:id="@+id/descriptionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="6"
+            android:ellipsize="end"
+            android:textColor="#000"
+            android:textSize="@dimen/small_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            tools:text="Pickup at 2:00PM" />
+
+        <TextView
+            android:id="@+id/urlText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin_size"
+            android:textColor="#000"
+            android:textSize="@dimen/small_text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionText"
+            tools:text="First drop off by 2:30 PM" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
