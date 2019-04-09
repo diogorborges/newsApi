@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(),
     private lateinit var fragment: Fragment
 
     companion object {
-        private const val FRAGMENT_KEY: String = "fragment"
+        const val FRAGMENT_KEY: String = "fragment"
         private const val TITLE_KEY: String = "title"
         private const val TAG = "MainActivity"
     }

@@ -45,7 +45,7 @@ class SourcesPresenter @Inject constructor(
     private fun getSources(isRefreshing: Boolean) {
         this.isRefreshing = isRefreshing
 
-        val disposable = sourceUseCase.getSources(isRefreshing)
+        val disposable = sourceUseCase.getSources(isRecfreshing)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {

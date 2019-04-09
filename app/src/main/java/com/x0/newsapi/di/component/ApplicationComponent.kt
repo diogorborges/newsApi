@@ -8,6 +8,7 @@ import com.x0.newsapi.di.module.RoomModule
 import com.x0.newsapi.presentation.MainActivity
 import com.x0.newsapi.presentation.news.NewsFragment
 import com.x0.newsapi.presentation.sources.SourcesFragment
+import com.x0.newsapi.presentation.sourcelist.ArticleListFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -24,4 +25,7 @@ interface ApplicationComponent {
     fun inject(fragment: SourcesFragment)
 
     fun inject(fragment: NewsFragment)
+
+    fun inject(fragment: ArticleListFragment)
+
 }
