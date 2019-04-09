@@ -5,22 +5,30 @@
     android:id="@+id/newsLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_smoke">
+    android:background="@color/colorAccent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/newsList"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_news" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/newsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fastScrollEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/item_news" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

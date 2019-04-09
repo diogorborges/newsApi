@@ -8,8 +8,6 @@ import io.reactivex.Single
 import retrofit2.http.Query
 
 interface NewsApiDataSource {
-    fun getFavoriteSources(isFavorite: Boolean): Single<ArrayList<Source>>
-
     fun getSources(): Single<ArrayList<Source>>
 
     fun insertSources(vararg sources: Source): Completable

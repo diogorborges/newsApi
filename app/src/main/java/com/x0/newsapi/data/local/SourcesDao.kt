@@ -9,9 +9,6 @@ import io.reactivex.Single
 
 @Dao
 interface SourcesDao {
-    @Query("SELECT * from sources WHERE isFavorite =:isFavorite")
-    fun getFavoriteSources(isFavorite: Boolean): Single<List<Source>>
-
     @Query("SELECT * from sources")
     fun getSources(): Single<List<Source>>
 

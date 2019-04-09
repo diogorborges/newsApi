@@ -5,14 +5,14 @@ import com.x0.newsapi.data.model.news.Article
 import io.reactivex.Single
 import javax.inject.Inject
 
-class NewsUseCase @Inject constructor(val newsApiRepository: NewsApiRepository) {
+class NewsUseCase @Inject constructor(private val newsApiRepository: NewsApiRepository) {
 
-    fun getNews(page: Int): Single<ArrayList<Article>> =
-        newsApiRepository.getNews(page)
+    fun getNews(pageNumber: Int, isRefreshing: Boolean): Single<ArrayList<Article>> =
+        newsApiRepository.getNews(pageNumber, isRefreshing)
 
-    fun isFirstLoad() : Boolean = newsApiRepository.isFirstLoad()
+    fun shouldLoadMore() : Boolean = newsApiRepository.shouldLoadMore()
 
     fun getPageNumber(): Int = newsApiRepository.getPageNumber()
 
-    fun saveIsFirstLoad(isFirstLoad: Boolean) = newsApiRepository.saveIsFirstLoad(isFirstLoad)
+    fun saveShouldLoadMore(shouldLoadMore: Boolean) = newsApiRepository.saveShouldLoadMore(shouldLoadMore)
 }

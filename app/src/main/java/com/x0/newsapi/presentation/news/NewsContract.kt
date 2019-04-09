@@ -10,6 +10,8 @@ interface NewsContract {
         fun showNews(newsList: List<AbstractFlexibleItem<*>>)
         fun showError(message: String?)
         fun onNewsDetailsClicked(article: Article)
+        fun clearNewsList()
+        fun showRefreshing(show: Boolean)
     }
 
     interface Presenter {

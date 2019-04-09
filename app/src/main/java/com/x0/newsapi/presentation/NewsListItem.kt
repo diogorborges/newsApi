@@ -18,7 +18,9 @@ import kotlinx.android.synthetic.main.item_news.urlText
 class NewsListItem(
     listHeader: ListHeader,
     private val article: Article,
-    private val openNewsDetailsObserver: Subject<Article>
+    private val openNewsDetailsObserver: Subject<Article>,
+    private val loadMoreNewsObserver: Subject<Article>,
+    private val listSize: Int
 ) : AbstractSectionableItem<NewsListItem.ViewHolder, ListHeader>(listHeader) {
 
     override fun getLayoutRes(): Int = R.layout.item_news
@@ -36,7 +38,10 @@ class NewsListItem(
         payloads: List<Any>
     ) = holder.bind(
         article,
-        openNewsDetailsObserver
+        openNewsDetailsObserver,
+        loadMoreNewsObserver,
+        position,
+        listSize
     )
 
     class ViewHolder(override var containerView: View?, adapter: FlexibleAdapter<*>) :
@@ -44,15 +49,29 @@ class NewsListItem(
 
         fun bind(
             article: Article,
-            openNewsDetailsObserver: Subject<Article>
+            openNewsDetailsObserver: Subject<Article>,
+            loadMoreNewsObserver: Subject<Article>,
+            position: Int,
+            listSize: Int
         ) {
             setSourceTitleText(article)
             setDescriptionText(article)
             setUrlText(article)
 
             setOpenArticleDetails(article, openNewsDetailsObserver)
+
+            setShouldLoadMoreNews(position, listSize, loadMoreNewsObserver, article)
         }
 
+        private fun setShouldLoadMoreNews(
+            position: Int,
+            listSize: Int,
+            loadMoreNewsObserver: Subject<Article>,
+            article: Article
+        ) {
+            if (position == listSize)
+                loadMoreNewsObserver.onNext(article)
+        }
 
         private fun setSourceTitleText(article: Article) = with(sourceTitleText) {
             text = article.source.name
@@ -77,12 +96,11 @@ class NewsListItem(
     }
 
     override fun equals(other: Any?): Boolean =
-        if (other is NewsListItem) article == other.article
+        if (other is NewsListItem) listSize == other.listSize
         else false
 
     override fun hashCode(): Int {
-        var result = article.hashCode()
-        result = 31 * result + openNewsDetailsObserver.hashCode()
-        return result
+        return listSize
     }
+
 }

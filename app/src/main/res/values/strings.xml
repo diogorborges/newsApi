@@ -2,5 +2,5 @@
     <string name="app_name">NewsApi</string>
     <string name="title_news">News</string>
     <string name="title_sources">Sources</string>
-    <string name="news_header">Your latest news:</string>
+    <string name="news_header">Your latest news</string>
 </resources>

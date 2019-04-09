@@ -14,8 +14,7 @@ data class Source(
     val url: String,
     val category: String,
     val language: String,
-    val country: String,
-    var isFavorite: Boolean = false
+    val country: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),

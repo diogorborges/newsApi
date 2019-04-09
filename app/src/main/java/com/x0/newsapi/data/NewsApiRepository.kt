@@ -2,7 +2,6 @@ package com.x0.newsapi.data
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.text.TextUtils.isEmpty
 import android.util.Log
 import com.x0.newsapi.common.ListUtils
 import com.x0.newsapi.common.hasNetwork
@@ -25,22 +24,26 @@ class NewsApiRepository @Inject constructor(
 
     companion object {
         private const val TAG = "NewsApiRepository"
-        private const val IS_EMPTY = 0
-        private const val MAX_LIMIT = 100
+        private const val NEWS_LIST_IS_EMPTY = 0
+        private const val NEWS_LIST_REACHED_THE_LIMIT = 100
+        private const val NEWS_FIRST_PAGE = 1
     }
 
-    fun getNews(nextPage: Int): Single<ArrayList<Article>> =
+    fun getNews(pageNumber: Int, isRefreshing: Boolean): Single<ArrayList<Article>> =
+        when (isRefreshing) {
+            true -> fetchAndPersistNews(NEWS_FIRST_PAGE)
+            else -> checkPersistedNews(pageNumber)
+        }
+
+    private fun checkPersistedNews(pageNumber: Int): Single<ArrayList<Article>> =
         newsApiLocalDataSource.getNews()
             .flatMap {
-                when(it.size) {
-                    IS_EMPTY -> return@flatMap fetchAndPersistNews(nextPage)
-                    MAX_LIMIT -> return@flatMap Single.just(it)
-                    else -> return@flatMap mergeNews(it, nextPage)
+                when (it.size) {
+                    NEWS_LIST_IS_EMPTY -> return@flatMap fetchAndPersistNews(pageNumber)
+                    NEWS_LIST_REACHED_THE_LIMIT -> return@flatMap Single.just(it)
+                    else -> return@flatMap mergeNews(it, pageNumber)
                 }
             }
-
-    override fun getFavoriteSources(isFavorite: Boolean): Single<ArrayList<Source>> =
-        newsApiLocalDataSource.getFavoriteSources(isFavorite)
 
     override fun getSources(): Single<ArrayList<Source>> =
         newsApiLocalDataSource.getSources()
@@ -55,17 +58,18 @@ class NewsApiRepository @Inject constructor(
 
     @SuppressLint("CheckResult")
     private fun fetchAndPersistSources(): Single<ArrayList<Source>> =
-        if (hasNetwork(context)) {
-            newsApiRemoteDataSource.getSources()
-                .doOnSuccess {
-                    Log.i(TAG, "Dispatching ${it.size} sources from API...")
-                    persistSources(it)
-                }
-                .doOnError {
-                    Single.just(FailureException())
-                }
-        } else {
-            Single.error(NetworkException())
+        when (hasNetwork(context)) {
+            true -> {
+                newsApiRemoteDataSource.getSources()
+                    .doOnSuccess {
+                        Log.i(TAG, "Dispatching ${it.size} sources from API...")
+                        persistSources(it)
+                    }
+                    .doOnError {
+                        Single.just(FailureException())
+                    }
+            }
+            false -> Single.error(NetworkException())
         }
 
     @SuppressLint("CheckResult")
@@ -84,40 +88,45 @@ class NewsApiRepository @Inject constructor(
     private fun mergeNews(
         currentNews: ArrayList<Article>,
         nextPage: Int
-    ): Single<ArrayList<Article>> {
-        return if (hasNetwork(context)) {
-            deleteNews().andThen(newsApiRemoteDataSource.getNews(nextPage))
-                .map { it.articles }
-                .map { nextNews ->
-                    currentNews.forEach {
-                        nextNews.add(it)
+    ): Single<ArrayList<Article>> =
+        when (hasNetwork(context)) {
+            true -> {
+                deleteNews().andThen(newsApiRemoteDataSource.getNews(nextPage))
+                    .map { it.articles }
+                    .map { nextNews ->
+                        nextNews.forEach {
+                            currentNews.add(it)
+                        }
+                        currentNews
                     }
-                    nextNews
-                }
-                .doOnSuccess {
-                    Log.i(TAG, "Merging ${it.size} new from API/DB...")
-                    persistNews(it, nextPage)
-                }
-                .doOnError {
-                    Single.just(FailureException())
-                }
-        } else {
-            Single.just(currentNews)
+                    .doOnSuccess {
+                        Log.i(TAG, "Merging ${it.size} new from API/DB...")
+                        persistNews(it, nextPage)
+                    }
+                    .doOnError {
+                        Single.just(FailureException())
+                    }
+            }
+            else -> Single.just(currentNews)
         }
-    }
 
     private fun fetchAndPersistNews(
         nextPage: Int
     ): Single<ArrayList<Article>> =
-        newsApiRemoteDataSource.getNews(nextPage)
-            .map { it.articles }
-            .doOnSuccess {
-                Log.i(TAG, "Dispatching ${it.size} news from API...")
-                persistNews(it, nextPage)
+        when (hasNetwork(context)) {
+            true -> {
+                deleteNews().andThen(newsApiRemoteDataSource.getNews(nextPage))
+                    .map { it.articles }
+                    .doOnSuccess {
+                        Log.i(TAG, "Dispatching ${it.size} news from API...")
+                        persistNews(it, nextPage)
+                    }
+                    .doOnError {
+                        Single.just(FailureException())
+                    }
             }
-            .doOnError {
-                Single.just(FailureException())
-            }
+            else -> Single.error(NetworkException())
+        }
 
     @SuppressLint("CheckResult")
     private fun persistNews(
@@ -125,9 +134,9 @@ class NewsApiRepository @Inject constructor(
         nextPage: Int
     ) {
         insertNews(*ListUtils.toArray(Article::class.java, news))
+            .andThen(newsApiLocalDataSource.savePageNumber(nextPage))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnComplete { newsApiLocalDataSource.savePageNumber(nextPage) }
             .subscribe(
                 { Log.i(TAG, "Success persisting news...") },
                 { Log.e(TAG, "Failure persisting news...") })
@@ -142,9 +151,10 @@ class NewsApiRepository @Inject constructor(
     override fun getSourceById(sources: String): Single<NewsResponse> =
         newsApiRemoteDataSource.getSourceById(sources)
 
-    fun isFirstLoad(): Boolean = newsApiLocalDataSource.isFirstLoad()
+    fun shouldLoadMore(): Boolean = newsApiLocalDataSource.getShouldLoadMore()
 
     fun getPageNumber(): Int = newsApiLocalDataSource.getPageNumber()
 
-    fun saveIsFirstLoad(firstLoad: Boolean) = newsApiLocalDataSource.saveIsFirstLoad(firstLoad)
+    fun saveShouldLoadMore(shouldLoadMore: Boolean) =
+        newsApiLocalDataSource.saveShouldLoadMore(shouldLoadMore)
 }

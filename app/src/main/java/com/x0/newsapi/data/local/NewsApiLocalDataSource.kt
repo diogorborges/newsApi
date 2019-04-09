@@ -15,10 +15,8 @@ class NewsApiLocalDataSource @Inject constructor(
     private val paginationRepository: PaginationRepository
 ) : NewsApiDataSource {
 
-    override fun getFavoriteSources(isFavorite: Boolean): Single<ArrayList<Source>> =
-        sourcesDao.getFavoriteSources(isFavorite).map { ArrayList(it) }
-
-    override fun getSources(): Single<ArrayList<Source>> = sourcesDao.getSources().map { ArrayList(it) }
+    override fun getSources(): Single<ArrayList<Source>> =
+        sourcesDao.getSources().map { ArrayList(it) }
 
     override fun insertSources(vararg sources: Source): Completable =
         Completable.fromAction { sourcesDao.insertSources(*sources) }
@@ -33,11 +31,12 @@ class NewsApiLocalDataSource @Inject constructor(
 
     override fun deleteNews(): Completable = Completable.fromAction { newsDao.deleteNews() }
 
-    fun isFirstLoad(): Boolean = paginationRepository.isFirstLoad()
+    fun getShouldLoadMore(): Boolean = paginationRepository.shouldLoadMore()
 
-    fun saveIsFirstLoad(isFirstLoad: Boolean) = paginationRepository.putFirstLoad(isFirstLoad)
+    fun saveShouldLoadMore(shouldLoadMore: Boolean) = paginationRepository.putShouldLoadMore(shouldLoadMore)
 
     fun getPageNumber(): Int = paginationRepository.getPageNumber()
 
-    fun savePageNumber(nextPage: Int) = paginationRepository.putPageNumber(nextPage)
+    fun savePageNumber(nextPage: Int): Completable =
+        Completable.fromAction { paginationRepository.putPageNumber(nextPage) }
 }

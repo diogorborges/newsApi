@@ -12,9 +12,6 @@ import javax.inject.Inject
 class NewsApiRemoteDataSource @Inject constructor(private val newApiService: NewApiService) :
     NewsApiDataSource {
 
-    override fun getFavoriteSources(isFavorite: Boolean): Single<ArrayList<Source>> =
-        Single.error(RemoteDataNotFoundException())
-
     override fun getSources(): Single<ArrayList<Source>> =
         newApiService.getSources().map { it.sources }
 

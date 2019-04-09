@@ -20,10 +20,12 @@ class NewsPresenter @Inject constructor(
 ) : NewsContract.Presenter {
 
     private val openNewsDetailsObserver = PublishSubject.create<Article>()
+    private val loadMoreNewsObserver = PublishSubject.create<Article>()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private lateinit var view: NewsContract.View
 
     private var pageNumber: Int = 0
+    private var isRefreshing: Boolean = false
 
     companion object {
         private const val TAG = "NewsPresenter"
@@ -32,7 +34,8 @@ class NewsPresenter @Inject constructor(
     override fun setView(newsFragment: NewsFragment) {
         view = newsFragment
         setupOpenNewsDetailsChangedEvent()
-        getNews()
+        setupLoadMoreNewsChangedEvent()
+        getNews(isRefreshing = false)
     }
 
     private fun setupOpenNewsDetailsChangedEvent(): Disposable =
@@ -41,33 +44,53 @@ class NewsPresenter @Inject constructor(
                 { view.onNewsDetailsClicked(it) },
                 { Log.e(TAG, "Error: $it") })
 
-    private fun getNews() {
-        view.showLoader(true)
+    private fun setupLoadMoreNewsChangedEvent(): Disposable =
+        loadMoreNewsObserver
+            .doOnNext { newsUseCase.saveShouldLoadMore(true) }
+            .subscribe(
+                { getNews(isRefreshing = false) },
+                { Log.e(TAG, "Error: $it") })
 
-        val nextPageNumber = getNextPage()
+    private fun getNews(isRefreshing: Boolean) {
+        this.isRefreshing = isRefreshing
 
-        val disposable = newsUseCase.getNews(nextPageNumber)
+        val disposable = newsUseCase.getNews(getPageNumber(), isRefreshing)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                setLoaders(isRefreshing, showLoader = true)
+            }
+            .doAfterTerminate {
+                setLoaders(isRefreshing, showLoader = false)
+            }
             .subscribe(this::onSuccess, this::onError)
         disposable.addTo(compositeDisposable)
+
     }
 
-    private fun getNextPage(): Int =
-        if (newsUseCase.isFirstLoad()) {
-            newsUseCase.saveIsFirstLoad(false)
-            ++pageNumber
-        } else {
-            pageNumber = newsUseCase.getPageNumber()
-            ++pageNumber
+    private fun setLoaders(isRefreshing: Boolean, showLoader: Boolean) = when (isRefreshing) {
+        true -> view.showRefreshing(showLoader)
+        else -> view.showLoader(showLoader)
+    }
+
+    private fun getPageNumber(): Int =
+        when (newsUseCase.shouldLoadMore()) {
+            true -> {
+                newsUseCase.saveShouldLoadMore(false)
+                pageNumber = newsUseCase.getPageNumber()
+                ++pageNumber
+            }
+            else -> {
+                pageNumber = newsUseCase.getPageNumber()
+                pageNumber
+            }
         }
 
-    override fun refreshList() {
-        getNews()
-    }
+    override fun refreshList() = getNews(isRefreshing = true)
 
     private fun onSuccess(newsList: ArrayList<Article>) {
-        view.showLoader(false)
+        if (isRefreshing) view.clearNewsList()
+
         view.showNews(prepareListNewsList(newsList))
     }
 
@@ -76,13 +99,20 @@ class NewsPresenter @Inject constructor(
 
         val listHeader = ListHeader(R.string.news_header, R.layout.list_header)
         newsList.forEach {
-            listItems.add(NewsListItem(listHeader, it, openNewsDetailsObserver))
+            listItems.add(
+                NewsListItem(
+                    listHeader,
+                    it,
+                    openNewsDetailsObserver,
+                    loadMoreNewsObserver,
+                    newsList.size
+                )
+            )
         }
 
         return listItems
     }
 
     private fun onError(throwable: Throwable) {
-        view.showLoader(false)
     }
 }

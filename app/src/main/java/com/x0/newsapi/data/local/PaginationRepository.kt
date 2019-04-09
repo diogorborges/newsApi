@@ -11,26 +11,11 @@ class PaginationRepository(context: Context) :
     companion object {
         private const val PAGINATION_REPOSITORY = "com.x0.newsapi.PAGINATION"
         private const val PAGE_ID = "PAGE_ID"
-        private const val IS_FIRST_LOAD = "IS_FIRST_LOAD"
+        private const val SHOULD_LOAD_MORE = "SHOULD_LOAD_MORE"
     }
 
-//    var pageNumber: Int
-//        get() = sharedPreferences.getInt(PAGE_ID, 0)
-//        set(value) = with(sharedPreferences.edit()) {
-//            putInt(PAGE_ID, pageNumber)
-//            apply()
-//        }
-
-//    var isFirstLoad: Boolean
-//        get() = sharedPreferences.getBoolean(IS_FIRST_LOAD, true)
-//        set(value) = with(sharedPreferences.edit()) {
-//            putBoolean(IS_FIRST_LOAD, isFirstLoad)
-//            apply()
-//        }
-
     fun getPageNumber(): Int {
-        val int = sharedPreferences.getInt(PAGE_ID, 0)
-        return int
+        return sharedPreferences.getInt(PAGE_ID, 0)
     }
 
     fun putPageNumber(pagerNumber: Int) {
@@ -38,13 +23,12 @@ class PaginationRepository(context: Context) :
         editor.putInt(PAGE_ID, pagerNumber).apply()
     }
 
-    fun isFirstLoad(): Boolean {
-        val boolean = sharedPreferences.getBoolean(IS_FIRST_LOAD, true)
-        return boolean
+    fun shouldLoadMore(): Boolean {
+        return sharedPreferences.getBoolean(SHOULD_LOAD_MORE, true)
     }
 
-    fun putFirstLoad(firstLoad: Boolean) {
+    fun putShouldLoadMore(shoudLoadMore: Boolean) {
         val editor = sharedPreferences.edit()
-        editor.putBoolean(IS_FIRST_LOAD, firstLoad).apply()
+        editor.putBoolean(SHOULD_LOAD_MORE, shoudLoadMore).apply()
     }
 }

@@ -2,26 +2,24 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardView"
-    android:layout_margin="16dp"
+    android:layout_margin="@dimen/default_margin_size"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     app:cardCornerRadius="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tripRootLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp">
+        android:layout_margin="@dimen/default_margin_size">
 
         <TextView
             android:id="@+id/sourceTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="@dimen/small_margin_size"
             android:textColor="#000"
-            android:textSize="@dimen/medium_text_size"
+            android:textSize="@dimen/large_text_size"
             app:layout_constraintBottom_toTopOf="@+id/descriptionText"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Trip #25 • 2 orders batch" />
@@ -41,7 +39,7 @@
             android:id="@+id/urlText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/small_margin_size"
             android:textColor="#000"
             android:textSize="@dimen/small_text_size"
             app:layout_constraintStart_toStartOf="parent"
