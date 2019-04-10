@@ -56,7 +56,7 @@ class NewsRepository @Inject constructor(
     ): Single<ArrayList<Article>> =
         when (hasNetwork(context)) {
             true -> {
-                deleteNews().andThen(newsApiRemoteDataSource.getNews(nextPage))
+                newsApiRemoteDataSource.getNews(nextPage)
                     .flatMap {
                         when (it.status) {
                             StatusType.STATUS_OK.toLowerCase() -> {
@@ -77,6 +77,7 @@ class NewsRepository @Inject constructor(
                     }
                     .doOnSuccess {
                         Log.i(TAG, "Merging ${it.size} new from API/DB...")
+                        deleteNews()
                         persistNews(it, nextPage)
                     }
                     .doOnError {
@@ -91,7 +92,7 @@ class NewsRepository @Inject constructor(
     ): Single<ArrayList<Article>> =
         when (hasNetwork(context)) {
             true -> {
-                deleteNews().andThen(newsApiRemoteDataSource.getNews(nextPage))
+                newsApiRemoteDataSource.getNews(nextPage)
                     .flatMap {
                         when (it.status) {
                             StatusType.STATUS_OK.toLowerCase() -> {
@@ -106,6 +107,7 @@ class NewsRepository @Inject constructor(
                     .map { it.articles }
                     .doOnSuccess {
                         Log.i(TAG, "Dispatching ${it.size} news from API...")
+                        deleteNews()
                         persistNews(it, nextPage)
                     }
                     .doOnError {
