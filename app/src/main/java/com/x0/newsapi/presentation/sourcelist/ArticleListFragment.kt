@@ -18,6 +18,7 @@ import com.x0.newsapi.data.model.sources.Source
 import com.x0.newsapi.presentation.sources.SourcesFragment
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import kotlinx.android.synthetic.main.fragment_generic_news.errorText
 import kotlinx.android.synthetic.main.fragment_generic_news.genericLayout
 import kotlinx.android.synthetic.main.fragment_generic_news.genericList
 import kotlinx.android.synthetic.main.fragment_generic_news.progressBarLayout
@@ -34,7 +35,6 @@ class ArticleListFragment : Fragment(), ArticleListContract.View,
 
     companion object {
         private const val TAG = "SourcesFragment"
-        private const val KEY = "Article"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,17 +53,15 @@ class ArticleListFragment : Fragment(), ArticleListContract.View,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val source = arguments?.getParcelable<Source>(SourcesFragment.KEY)
+        source?.id?.let { presenter.setView(this, it) } ?: showErrorMessage()
         setupUI()
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        val source = arguments?.getParcelable<Source>(SourcesFragment.KEY)
-        source?.id?.let { presenter.setView(this, it) } ?: showNotFoundSource()
+    private fun showErrorMessage() {
+        genericLayout.gone()
+        errorText.visible()
     }
-
-    private fun showNotFoundSource() = genericLayout.gone()
 
     private fun setupUI() {
         swipeRefresh.setOnRefreshListener(this)
@@ -89,9 +87,11 @@ class ArticleListFragment : Fragment(), ArticleListContract.View,
     }
 
     override fun showLoader(show: Boolean) = with(progressBarLayout) {
-        when (show) {
-            true -> visible()
-            else -> gone()
+        this.let {
+            when (show) {
+                true -> visible()
+                else -> gone()
+            }
         }
     }
 
@@ -103,6 +103,7 @@ class ArticleListFragment : Fragment(), ArticleListContract.View,
     override fun showError(message: String?) {
         message?.let {
             Log.e(TAG, "Error: $it")
+            showErrorMessage()
         }
     }
 }

@@ -33,11 +33,11 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/notFoundText"
+        android:id="@+id/errorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/source_not_found"
+        android:text="@string/error_text"
         android:visibility="gone" />
 
     <include

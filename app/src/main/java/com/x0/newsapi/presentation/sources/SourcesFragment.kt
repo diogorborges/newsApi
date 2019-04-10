@@ -18,7 +18,9 @@ import com.x0.newsapi.presentation.MainActivity
 import com.x0.newsapi.presentation.sourcelist.ArticleListFragment
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import kotlinx.android.synthetic.main.fragment_sources.errorText
 import kotlinx.android.synthetic.main.fragment_sources.progressBarLayout
+import kotlinx.android.synthetic.main.fragment_sources.sourcesLayout
 import kotlinx.android.synthetic.main.fragment_sources.sourcesList
 import javax.inject.Inject
 
@@ -63,6 +65,11 @@ class SourcesFragment : Fragment(), SourcesContract.View {
         sourcesList.isNestedScrollingEnabled = true
     }
 
+    private fun showErrorMessage() {
+        sourcesLayout.gone()
+        errorText.visible()
+    }
+
     override fun onSourceClicked(source: Source) {
         val bundle = Bundle()
         bundle.putParcelable(KEY, source)
@@ -91,6 +98,7 @@ class SourcesFragment : Fragment(), SourcesContract.View {
     override fun showError(message: String?) {
         message?.let {
             Log.e(TAG, "Error: $it")
+            showErrorMessage()
         }
     }
 }

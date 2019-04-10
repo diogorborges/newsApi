@@ -15,6 +15,8 @@ import com.x0.newsapi.common.inflate
 import com.x0.newsapi.common.visible
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import kotlinx.android.synthetic.main.fragment_generic_news.errorText
+import kotlinx.android.synthetic.main.fragment_generic_news.genericLayout
 import kotlinx.android.synthetic.main.fragment_generic_news.genericList
 import kotlinx.android.synthetic.main.fragment_generic_news.progressBarLayout
 import kotlinx.android.synthetic.main.fragment_generic_news.swipeRefresh
@@ -52,6 +54,11 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
         setupUI()
     }
 
+    private fun showErrorMessage() {
+        genericLayout.gone()
+        errorText.visible()
+    }
+
     private fun setupUI() {
         swipeRefresh.setOnRefreshListener(this)
 
@@ -66,13 +73,17 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
     override fun onRefresh() = presenter.refreshList()
 
     override fun showRefreshing(show: Boolean) = with(swipeRefresh) {
-        isRefreshing = show
+        this.let {
+            isRefreshing = show
+        }
     }
 
     override fun showLoader(show: Boolean) = with(progressBarLayout) {
-        when (show) {
-            true -> visible()
-            else -> gone()
+        this.let {
+            when (show) {
+                true -> visible()
+                else -> gone()
+            }
         }
     }
 
@@ -83,6 +94,7 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
     override fun showError(message: String?) {
         message?.let {
             Log.e(TAG, "Error: $it")
+            showErrorMessage()
         }
     }
 }
