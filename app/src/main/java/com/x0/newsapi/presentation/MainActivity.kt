@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener,
     BottomNavigationView.OnNavigationItemReselectedListener {
 
-    private var title: String = NewsFragment.TITLE
+    private var title: String = SourcesFragment.TITLE
     private lateinit var fragment: Fragment
 
     companion object {
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(),
         title = savedInstanceState?.getString(TITLE_KEY) ?: title
 
         if (supportFragmentManager.findFragmentByTag(FRAGMENT_KEY) == null) {
-            changeFragment(NewsFragment())
+            changeFragment(SourcesFragment())
         }
     }
 

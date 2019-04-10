@@ -9,7 +9,6 @@ interface NewsContract {
         fun showLoader(show: Boolean)
         fun showNews(newsList: List<AbstractFlexibleItem<*>>)
         fun showError(message: String?)
-        fun onNewsDetailsClicked(article: Article)
         fun clearNewsList()
         fun showRefreshing(show: Boolean)
     }

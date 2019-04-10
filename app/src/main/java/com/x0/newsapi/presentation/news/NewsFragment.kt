@@ -13,7 +13,6 @@ import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.inflate
 import com.x0.newsapi.common.visible
-import com.x0.newsapi.data.model.news.Article
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import kotlinx.android.synthetic.main.fragment_generic_news.genericList
@@ -21,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_generic_news.progressBarLayout
 import kotlinx.android.synthetic.main.fragment_generic_news.swipeRefresh
 import javax.inject.Inject
 
-class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener, View.OnClickListener {
+class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
 
     @Inject
     lateinit var presenter: NewsPresenter
@@ -64,10 +63,6 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener, View.OnCl
         genericList.isNestedScrollingEnabled = true
     }
 
-    override fun onClick(p0: View?) {
-        activity?.onBackPressed()
-    }
-
     override fun onRefresh() = presenter.refreshList()
 
     override fun showRefreshing(show: Boolean) = with(swipeRefresh) {
@@ -90,6 +85,4 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener, View.OnCl
             Log.e(TAG, "Error: $it")
         }
     }
-
-    override fun onNewsDetailsClicked(article: Article) = Unit
 }

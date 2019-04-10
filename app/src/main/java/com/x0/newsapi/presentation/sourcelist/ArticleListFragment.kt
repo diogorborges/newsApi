@@ -14,17 +14,18 @@ import com.x0.newsapi.R
 import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.inflate
 import com.x0.newsapi.common.visible
-import com.x0.newsapi.data.model.news.Article
 import com.x0.newsapi.data.model.sources.Source
 import com.x0.newsapi.presentation.sources.SourcesFragment
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import kotlinx.android.synthetic.main.fragment_generic_news.genericLayout
 import kotlinx.android.synthetic.main.fragment_generic_news.genericList
 import kotlinx.android.synthetic.main.fragment_generic_news.progressBarLayout
 import kotlinx.android.synthetic.main.fragment_generic_news.swipeRefresh
 import javax.inject.Inject
 
-class ArticleListFragment : Fragment(), ArticleListContract.View, SwipeRefreshLayout.OnRefreshListener {
+class ArticleListFragment : Fragment(), ArticleListContract.View,
+    SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     lateinit var presenter: ArticleListPresenter
@@ -52,13 +53,21 @@ class ArticleListFragment : Fragment(), ArticleListContract.View, SwipeRefreshLa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupUI()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         val source = arguments?.getParcelable<Source>(SourcesFragment.KEY)
 
-        source?.id?.let {
-            presenter.setView(this, it)
-        }
+        source?.id?.let { presenter.setView(this, it) } ?: showNotFoundSource()
 
-        setupUI()
+
+    }
+
+    private fun showNotFoundSource() {
+        genericLayout.gone()
     }
 
     private fun setupUI() {
@@ -82,22 +91,6 @@ class ArticleListFragment : Fragment(), ArticleListContract.View, SwipeRefreshLa
 
     override fun showRefreshing(show: Boolean) = with(swipeRefresh) {
         isRefreshing = show
-    }
-
-    override fun onArticleClicked(article: Article) {
-        Log.i(TAG, "Article clicked: $article")
-//        val bundle = Bundle()
-//        bundle.putParcelable(KEY, article)
-//
-//        val fragment = ArticleDetailsFragment()
-//        fragment.arguments = bundle
-//
-//        (context as MainActivity)
-//            .supportFragmentManager
-//            .beginTransaction()
-//            .add(R.id.main_container, fragment, MainActivity.FRAGMENT_KEY)
-//            .addToBackStack(null)
-//            .commit()
     }
 
     override fun showLoader(show: Boolean) = with(progressBarLayout) {

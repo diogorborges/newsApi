@@ -11,7 +11,7 @@
 
     <ImageView
         android:id="@+id/thumbnailImage"
-        android:layout_width="70dp"
+        android:layout_width="@dimen/x_large_icon_size"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_image_placeholder"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -49,11 +49,13 @@
 
     <TextView
         android:id="@+id/authorText"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/width_size"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/small_margin_size"
         android:layout_marginTop="@dimen/small_margin_size"
+        android:ellipsize="end"
         android:fontFamily="@font/rubik_medium_italic"
+        android:maxLines="1"
         android:textColor="@color/colorNavigationItemDefault"
         android:textSize="@dimen/small_text_size"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -76,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginTop="@dimen/default_margin_size"
-        android:background="#e1e1e1"
+        android:background="@color/divisor"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/publishedDayText" />

@@ -9,7 +9,6 @@ interface ArticleListContract {
         fun showLoader(show: Boolean)
         fun showArticleList(articleList: List<AbstractFlexibleItem<*>>)
         fun showError(message: String?)
-        fun onArticleClicked(article: Article)
         fun clearArticleList()
         fun showRefreshing(show: Boolean)
     }

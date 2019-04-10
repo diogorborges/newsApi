@@ -2,7 +2,6 @@ package com.x0.newsapi.presentation.ui
 
 import android.view.View
 import com.x0.newsapi.R
-import com.x0.newsapi.common.clickWithDebounce
 import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.setThumbnailImage
 import com.x0.newsapi.data.model.news.Article
@@ -21,7 +20,6 @@ import kotlinx.android.synthetic.main.item_generic.titleText
 class GenericListItem(
     listHeader: ListHeader,
     private val article: Article,
-    private val openDetailsObserver: Subject<Article>,
     private val loadMoreObserver: Subject<Article>,
     private val listSize: Int
 ) : AbstractSectionableItem<GenericListItem.ViewHolder, ListHeader>(listHeader) {
@@ -41,7 +39,6 @@ class GenericListItem(
         payloads: List<Any>
     ) = holder.bind(
         article,
-        openDetailsObserver,
         loadMoreObserver,
         position,
         listSize
@@ -52,7 +49,6 @@ class GenericListItem(
 
         fun bind(
             article: Article,
-            openNewsDetailsObserver: Subject<Article>,
             loadMoreNewsObserver: Subject<Article>,
             position: Int,
             listSize: Int
@@ -62,8 +58,6 @@ class GenericListItem(
             setDescriptionText(article)
             setAuthorText(article)
             setPublishedDayText(article)
-
-            setOpenArticleDetails(article, openNewsDetailsObserver)
 
             setShouldLoadMoreNews(position, listSize, loadMoreNewsObserver, article)
         }
@@ -100,13 +94,6 @@ class GenericListItem(
 
         private fun setPublishedDayText(article: Article) = with(publishedDayText) {
             text = article.publishedAt
-        }
-
-        private fun setOpenArticleDetails(
-            article: Article,
-            openNewsDetailsObserver: Subject<Article>
-        ) = containerView?.clickWithDebounce {
-            openNewsDetailsObserver.onNext(article)
         }
     }
 

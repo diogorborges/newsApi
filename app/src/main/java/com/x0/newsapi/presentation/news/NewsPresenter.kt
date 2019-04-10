@@ -19,7 +19,6 @@ class NewsPresenter @Inject constructor(
     private val newsUseCase: NewsUseCase
 ) : NewsContract.Presenter {
 
-    private val openNewsDetailsObserver = PublishSubject.create<Article>()
     private val loadMoreNewsObserver = PublishSubject.create<Article>()
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -34,23 +33,14 @@ class NewsPresenter @Inject constructor(
 
     override fun setView(newsFragment: NewsFragment) {
         view = newsFragment
-        setupOpenNewsDetailsChangedEvent()
         setupLoadMoreNewsChangedEvent()
         getNews(isRefreshing = false)
     }
 
-    private fun setupOpenNewsDetailsChangedEvent(): Disposable =
-        openNewsDetailsObserver
-            .subscribe(
-                { view.onNewsDetailsClicked(it) },
-                { Log.e(TAG, "Error: $it") })
-
     private fun setupLoadMoreNewsChangedEvent(): Disposable =
         loadMoreNewsObserver
             .doOnNext { newsUseCase.saveShouldLoadMoreNews(true) }
-            .subscribe(
-                { getNews(isRefreshing = false) },
-                { Log.e(TAG, "Error: $it") })
+            .subscribe { getNews(isRefreshing = false) }
 
     private fun getNews(isRefreshing: Boolean) {
         this.isRefreshing = isRefreshing
@@ -105,7 +95,6 @@ class NewsPresenter @Inject constructor(
                 GenericListItem(
                     listHeader,
                     it,
-                    openNewsDetailsObserver,
                     loadMoreNewsObserver,
                     newsList.size
                 )

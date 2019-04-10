@@ -40,9 +40,13 @@ dependencies {
     def testDependencies = rootProject.ext.testDependencies
     def rxDependencies = rootProject.ext.rxDependencies
     def kotlinDependencies = rootProject.ext.kotlinDependencies
+    def apacheDependencies = rootProject.ext.apacheDependencies
+
     implementation uiDependencies.flexibleAdapter
     implementation uiDependencies.flexibleAdapterUI
     implementation uiDependencies.glide
+    kapt uiDependencies.glideCompiler
+
     implementation googleDependencies.appCompat
     implementation googleDependencies.material
     implementation googleDependencies.cardView
@@ -53,21 +57,25 @@ dependencies {
     kapt googleDependencies.roomCompiler
     implementation googleDependencies.dagger
     kapt googleDependencies.daggerCompiler
+
     implementation squareDependencies.retrofit
     implementation squareDependencies.retrofit2gson
     implementation squareDependencies.retrofit2rxjavaAdapter
     implementation squareDependencies.okhttp3
     implementation squareDependencies.okhttp3logging
+
     testImplementation testDependencies.mockito
     testImplementation testDependencies.mockitoInline
     testImplementation testDependencies.testRunner
     testImplementation testDependencies.junit
     testImplementation testDependencies.json
+
     implementation rxDependencies.rxJava
     implementation rxDependencies.rxAndroid
     implementation kotlinDependencies.kotlinStdlib
     implementation kotlinDependencies.ktx
-    implementation 'org.apache.directory.studio:org.apache.commons.io:2.4'
+
+    implementation apacheDependencies.apache
 }
 
 apply plugin: 'kotlin-android-extensions'

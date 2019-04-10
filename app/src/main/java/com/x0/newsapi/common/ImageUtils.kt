@@ -6,7 +6,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.x0.newsapi.R
 
 fun setThumbnailImage(imageView: ImageView, path: String?) {
-    Glide.with(imageView)
+    GlideApp.with(imageView)
         .load(path)
         .apply(RequestOptions().circleCrop())
         .apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder))
