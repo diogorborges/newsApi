@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
@@ -15,12 +16,12 @@ import com.x0.newsapi.common.inflate
 import com.x0.newsapi.common.visible
 import com.x0.newsapi.data.model.news.Article
 import com.x0.newsapi.data.model.sources.Source
+import com.x0.newsapi.presentation.sources.SourcesFragment
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
-import kotlinx.android.synthetic.main.activity_container.toolbar
-import kotlinx.android.synthetic.main.fragment_sources.progressBarLayout
-import kotlinx.android.synthetic.main.fragment_sources.sourcesList
-import kotlinx.android.synthetic.main.fragment_sources.swipeRefresh
+import kotlinx.android.synthetic.main.fragment_generic_news.genericList
+import kotlinx.android.synthetic.main.fragment_generic_news.progressBarLayout
+import kotlinx.android.synthetic.main.fragment_generic_news.swipeRefresh
 import javax.inject.Inject
 
 class ArticleListFragment : Fragment(), ArticleListContract.View, SwipeRefreshLayout.OnRefreshListener {
@@ -31,8 +32,8 @@ class ArticleListFragment : Fragment(), ArticleListContract.View, SwipeRefreshLa
     private lateinit var adapter: FlexibleAdapter<AbstractFlexibleItem<*>>
 
     companion object {
-        const val TITLE = "Sources"
         private const val TAG = "SourcesFragment"
+        private const val KEY = "Article"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,14 +46,13 @@ class ArticleListFragment : Fragment(), ArticleListContract.View, SwipeRefreshLa
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? =
-        container?.inflate(R.layout.fragment_news)
+        container?.inflate(R.layout.fragment_generic_news)
 
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val source = arguments?.getParcelable<Source>("SOURCE")
-        toolbar.title = source?.name ?: "Article"
+        val source = arguments?.getParcelable<Source>(SourcesFragment.KEY)
 
         source?.id?.let {
             presenter.setView(this, it)
@@ -67,22 +67,27 @@ class ArticleListFragment : Fragment(), ArticleListContract.View, SwipeRefreshLa
         adapter = FlexibleAdapter(ArrayList<AbstractFlexibleItem<*>>())
         adapter.isAnimateChangesWithDiffUtil = true
 
-        sourcesList.adapter = adapter
-        sourcesList.isNestedScrollingEnabled = true
-    }
-
-    override fun onArticleClicked(article: Article) {
+        genericList.adapter = adapter
+        genericList.layoutManager = LinearLayoutManager(context)
+        genericList.isNestedScrollingEnabled = true
     }
 
     override fun onRefresh() = presenter.refreshList()
+
+    override fun onStop() {
+        super.onStop()
+
+        presenter.clearArticles()
+    }
 
     override fun showRefreshing(show: Boolean) = with(swipeRefresh) {
         isRefreshing = show
     }
 
-//    override fun onArticleClicked(article: Article) {
+    override fun onArticleClicked(article: Article) {
+        Log.i(TAG, "Article clicked: $article")
 //        val bundle = Bundle()
-//        bundle.putParcelable("Article", article)
+//        bundle.putParcelable(KEY, article)
 //
 //        val fragment = ArticleDetailsFragment()
 //        fragment.arguments = bundle
@@ -93,7 +98,7 @@ class ArticleListFragment : Fragment(), ArticleListContract.View, SwipeRefreshLa
 //            .add(R.id.main_container, fragment, MainActivity.FRAGMENT_KEY)
 //            .addToBackStack(null)
 //            .commit()
-//    }
+    }
 
     override fun showLoader(show: Boolean) = with(progressBarLayout) {
         when (show) {

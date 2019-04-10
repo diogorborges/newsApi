@@ -7,8 +7,8 @@ import com.x0.newsapi.common.ListUtils
 import com.x0.newsapi.common.hasNetwork
 import com.x0.newsapi.data.local.NewsApiLocalDataSource
 import com.x0.newsapi.data.model.news.Article
-import com.x0.newsapi.data.model.news.NewsResponse
 import com.x0.newsapi.data.model.sources.Source
+import com.x0.newsapi.data.model.types.StatusType
 import com.x0.newsapi.data.remote.NewsApiRemoteDataSource
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -24,24 +24,51 @@ class NewsApiRepository @Inject constructor(
 
     companion object {
         private const val TAG = "NewsApiRepository"
-        private const val NEWS_LIST_IS_EMPTY = 0
-        private const val NEWS_LIST_REACHED_THE_LIMIT = 100
-        private const val NEWS_FIRST_PAGE = 1
+        private const val LIST_IS_EMPTY = 0
+        private const val FIRST_PAGE = 1
     }
+
+    fun getArticles(sourceId: String, nextPage: Int): Single<ArrayList<Article>> =
+        when (hasNetwork(context)) {
+            true -> {
+                newsApiRemoteDataSource.getArticles(sourceId, nextPage)
+                    .flatMap {
+                        when (it.status) {
+                            StatusType.STATUS_OK.toLowerCase() -> Single.just(it)
+                            else -> Single.error(NetworkException())
+                        }
+                    }
+                    .doAfterSuccess { newsApiLocalDataSource.saveArticlesTotalResult(it.totalResults) }
+                    .map { it.articles }
+                    .doOnSuccess {
+                        Log.i(TAG, "Dispatching ${it.size} sources from API...")
+                        newsApiLocalDataSource.saveArticlesListSize(it.size)
+                        newsApiLocalDataSource.saveArticlesPageNumber(nextPage)
+                    }
+                    .doOnError { Single.just(FailureException()) }
+            }
+            else -> Single.error(NetworkException())
+        }
 
     fun getNews(pageNumber: Int, isRefreshing: Boolean): Single<ArrayList<Article>> =
         when (isRefreshing) {
-            true -> fetchAndPersistNews(NEWS_FIRST_PAGE)
+            true -> fetchAndPersistNews(FIRST_PAGE)
             else -> checkPersistedNews(pageNumber)
         }
 
     private fun checkPersistedNews(pageNumber: Int): Single<ArrayList<Article>> =
         newsApiLocalDataSource.getNews()
             .flatMap {
-                when (it.size) {
-                    NEWS_LIST_IS_EMPTY -> return@flatMap fetchAndPersistNews(pageNumber)
-                    NEWS_LIST_REACHED_THE_LIMIT -> return@flatMap Single.just(it)
-                    else -> return@flatMap mergeNews(it, pageNumber)
+                val newsListSize = it.size
+                when (newsListSize) {
+                    LIST_IS_EMPTY -> return@flatMap fetchAndPersistNews(pageNumber)
+                    else -> {
+                        if (newsListSize == newsApiLocalDataSource.getNewsTotalResult()) {
+                            return@flatMap Single.just(it)
+                        } else {
+                            return@flatMap mergeNews(it, pageNumber)
+                        }
+                    }
                 }
             }
 
@@ -92,6 +119,17 @@ class NewsApiRepository @Inject constructor(
         when (hasNetwork(context)) {
             true -> {
                 deleteNews().andThen(newsApiRemoteDataSource.getNews(nextPage))
+                    .flatMap {
+                        when (it.status) {
+                            StatusType.STATUS_OK.toLowerCase() -> {
+                                Single.just(it)
+                            }
+                            else -> Single.error(NetworkException())
+                        }
+                    }
+                    .doAfterSuccess {
+                        newsApiLocalDataSource.saveNewsTotalResult(it.totalResults)
+                    }
                     .map { it.articles }
                     .map { nextNews ->
                         nextNews.forEach {
@@ -116,6 +154,17 @@ class NewsApiRepository @Inject constructor(
         when (hasNetwork(context)) {
             true -> {
                 deleteNews().andThen(newsApiRemoteDataSource.getNews(nextPage))
+                    .flatMap {
+                        when (it.status) {
+                            StatusType.STATUS_OK.toLowerCase() -> {
+                                Single.just(it)
+                            }
+                            else -> Single.error(NetworkException())
+                        }
+                    }
+                    .doAfterSuccess {
+                        newsApiLocalDataSource.saveNewsTotalResult(it.totalResults)
+                    }
                     .map { it.articles }
                     .doOnSuccess {
                         Log.i(TAG, "Dispatching ${it.size} news from API...")
@@ -134,7 +183,7 @@ class NewsApiRepository @Inject constructor(
         nextPage: Int
     ) {
         insertNews(*ListUtils.toArray(Article::class.java, news))
-            .andThen(newsApiLocalDataSource.savePageNumber(nextPage))
+            .andThen(newsApiLocalDataSource.saveNewsPageNumber(nextPage))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -148,13 +197,27 @@ class NewsApiRepository @Inject constructor(
     override fun deleteNews(): Completable = newsApiLocalDataSource.deleteNews()
         .doOnError { Log.e(TAG, "Failure deleting news...") }
 
-    override fun getSourceById(sources: String): Single<NewsResponse> =
-        newsApiRemoteDataSource.getSourceById(sources)
+    //
 
-    fun shouldLoadMore(): Boolean = newsApiLocalDataSource.getShouldLoadMore()
+    fun shouldLoadMoreNews(): Boolean = newsApiLocalDataSource.getShouldLoadMoreNews()
 
-    fun getPageNumber(): Int = newsApiLocalDataSource.getPageNumber()
+    fun getNewsPageNumber(): Int = newsApiLocalDataSource.getNewsPageNumber()
 
-    fun saveShouldLoadMore(shouldLoadMore: Boolean) =
-        newsApiLocalDataSource.saveShouldLoadMore(shouldLoadMore)
+    fun saveShouldLoadMoreNews(shouldLoadMoreNews: Boolean) =
+        newsApiLocalDataSource.saveShouldLoadMoreNews(shouldLoadMoreNews)
+
+    //
+
+    fun shouldLoadMoreArticles(): Boolean = newsApiLocalDataSource.getShouldLoadMoreArticles()
+
+    fun getArticlesPageNumber(): Int = newsApiLocalDataSource.getArticlesPageNumber()
+
+    fun saveShouldLoadMoreArticles(shouldLoadMoreArticles: Boolean) =
+        newsApiLocalDataSource.saveShouldLoadMoreArticles(shouldLoadMoreArticles)
+
+    fun getArticlesTotalResult(): Int = newsApiLocalDataSource.getArticlesTotalResult()
+
+    fun getArticlesListSize(): Int = newsApiLocalDataSource.getArticlesListSize()
+
+    fun clearArticles() = newsApiLocalDataSource.clearArticlesRepository()
 }

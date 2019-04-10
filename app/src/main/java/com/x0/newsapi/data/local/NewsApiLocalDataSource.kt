@@ -1,9 +1,7 @@
 package com.x0.newsapi.data.local
 
-import com.x0.newsapi.data.LocalDataNotFoundException
 import com.x0.newsapi.data.NewsApiDataSource
 import com.x0.newsapi.data.model.news.Article
-import com.x0.newsapi.data.model.news.NewsResponse
 import com.x0.newsapi.data.model.sources.Source
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -12,7 +10,8 @@ import javax.inject.Inject
 class NewsApiLocalDataSource @Inject constructor(
     private val sourcesDao: SourcesDao,
     private val newsDao: NewsDao,
-    private val paginationRepository: PaginationRepository
+    private val paginationNewsRepository: PaginationNewsRepository,
+    private val paginationArticlesRepository: PaginationArticlesRepository
 ) : NewsApiDataSource {
 
     override fun getSources(): Single<ArrayList<Source>> =
@@ -21,22 +20,53 @@ class NewsApiLocalDataSource @Inject constructor(
     override fun insertSources(vararg sources: Source): Completable =
         Completable.fromAction { sourcesDao.insertSources(*sources) }
 
-    fun getNews(): Single<ArrayList<Article>> = newsDao.getNews().map { ArrayList(it) }
+    //
 
-    override fun getSourceById(sources: String): Single<NewsResponse> =
-        Single.error(LocalDataNotFoundException())
+    fun getNews(): Single<ArrayList<Article>> = newsDao.getNews().map { ArrayList(it) }
 
     override fun insertNews(vararg news: Article): Completable =
         Completable.fromAction { newsDao.insertNews(*news) }
 
     override fun deleteNews(): Completable = Completable.fromAction { newsDao.deleteNews() }
 
-    fun getShouldLoadMore(): Boolean = paginationRepository.shouldLoadMore()
+    ///
 
-    fun saveShouldLoadMore(shouldLoadMore: Boolean) = paginationRepository.putShouldLoadMore(shouldLoadMore)
+    fun getShouldLoadMoreNews(): Boolean = paginationNewsRepository.shouldLoadMoreNews()
 
-    fun getPageNumber(): Int = paginationRepository.getPageNumber()
+    fun saveShouldLoadMoreNews(shouldLoadMore: Boolean) =
+        paginationNewsRepository.putShouldLoadMoreNews(shouldLoadMore)
 
-    fun savePageNumber(nextPage: Int): Completable =
-        Completable.fromAction { paginationRepository.putPageNumber(nextPage) }
+    fun getNewsPageNumber(): Int = paginationNewsRepository.getNewsPageNumber()
+
+    fun saveNewsPageNumber(nextPage: Int): Completable =
+        Completable.fromAction { paginationNewsRepository.putNewsPageNumber(nextPage) }
+
+    fun saveNewsTotalResult(newsTotalResults: Int) =
+        paginationNewsRepository.putNewsTotalResults(newsTotalResults)
+
+    fun getNewsTotalResult() = paginationNewsRepository.getNewsTotalResults()
+
+    //
+
+    fun getShouldLoadMoreArticles(): Boolean = paginationArticlesRepository.shouldLoadMoreArticles()
+
+    fun saveShouldLoadMoreArticles(shouldLoadMore: Boolean) =
+        paginationArticlesRepository.putShouldLoadMoreArticles(shouldLoadMore)
+
+    fun getArticlesPageNumber(): Int = paginationArticlesRepository.getArticlesPageNumber()
+
+    fun saveArticlesPageNumber(nextPage: Int) =
+        paginationArticlesRepository.putArticlesPageNumber(nextPage)
+
+    fun saveArticlesTotalResult(articlesTotalResults: Int) =
+        paginationArticlesRepository.putArticlesTotalResults(articlesTotalResults)
+
+    fun getArticlesTotalResult() = paginationArticlesRepository.getArticlesTotalResults()
+
+    fun clearArticlesRepository() = paginationArticlesRepository.clearArticles()
+
+    fun getArticlesListSize() = paginationArticlesRepository.getArticlesListSize()
+
+    fun saveArticlesListSize(articleListSize: Int) =
+        paginationArticlesRepository.putArticleListSize(articleListSize)
 }

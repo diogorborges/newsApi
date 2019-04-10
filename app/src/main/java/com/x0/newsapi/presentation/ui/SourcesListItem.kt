@@ -1,4 +1,4 @@
-package com.x0.newsapi.presentation
+package com.x0.newsapi.presentation.ui
 
 import android.view.View
 import com.x0.newsapi.R

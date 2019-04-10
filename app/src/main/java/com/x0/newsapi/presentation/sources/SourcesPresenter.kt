@@ -5,8 +5,8 @@ import com.x0.newsapi.R
 import com.x0.newsapi.common.addTo
 import com.x0.newsapi.data.model.sources.Source
 import com.x0.newsapi.data.usecase.SourcesUseCase
-import com.x0.newsapi.presentation.ListHeader
-import com.x0.newsapi.presentation.SourcesListItem
+import com.x0.newsapi.presentation.ui.ListHeader
+import com.x0.newsapi.presentation.ui.SourcesListItem
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -24,8 +24,6 @@ class SourcesPresenter @Inject constructor(
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private lateinit var view: SourcesContract.View
 
-    private var isRefreshing: Boolean = false
-
     companion object {
         private const val TAG = "SourcesPresenter"
     }
@@ -33,7 +31,7 @@ class SourcesPresenter @Inject constructor(
     override fun setView(sourcesFragment: SourcesFragment) {
         view = sourcesFragment
         setupOpenSourceChangedEvent()
-        getSources(false)
+        getSources()
     }
 
     private fun setupOpenSourceChangedEvent(): Disposable =
@@ -42,48 +40,31 @@ class SourcesPresenter @Inject constructor(
                 { view.onSourceClicked(it) },
                 { Log.e(TAG, "Error: $it") })
 
-    private fun getSources(isRefreshing: Boolean) {
-        this.isRefreshing = isRefreshing
-
-        val disposable = sourceUseCase.getSources(isRecfreshing)
+    private fun getSources() {
+        val disposable = sourceUseCase.getSources()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
-                setLoaders(isRefreshing, showLoader = true)
+                view.showLoader(true)
             }
             .doAfterTerminate {
-                setLoaders(isRefreshing, showLoader = false)
+                view.showLoader(false)
             }
             .subscribe(this::onSuccess, this::onError)
         disposable.addTo(compositeDisposable)
     }
 
-    private fun setLoaders(isRefreshing: Boolean, showLoader: Boolean) = when (isRefreshing) {
-        true -> view.showRefreshing(showLoader)
-        else -> view.showLoader(showLoader)
-    }
-
-    override fun refreshList() = getSources(isRefreshing = true)
-
-
-    private fun onSuccess(sourceList: ArrayList<Source>) {
-        if (isRefreshing) view.clearSourcesList()
-
-        view.showSources(prepareListNewsList(sourceList))
-    }
+    private fun onSuccess(sourceList: ArrayList<Source>) = view.showSources(prepareListNewsList(sourceList))
 
     private fun prepareListNewsList(sourceList: ArrayList<Source>): List<AbstractFlexibleItem<*>> {
         val listItems = ArrayList<AbstractFlexibleItem<*>>()
 
         val listHeader = ListHeader(R.string.sources_header, R.layout.list_header)
-        sourceList.forEach {
-            listItems.add(SourcesListItem(listHeader, it, openSourceObserver))
-        }
+
+        sourceList.forEach { listItems.add(SourcesListItem(listHeader, it, openSourceObserver)) }
 
         return listItems
     }
 
-    private fun onError(throwable: Throwable) {
-        view.showError(throwable.message)
-    }
+    private fun onError(throwable: Throwable) = view.showError(throwable.message)
 }

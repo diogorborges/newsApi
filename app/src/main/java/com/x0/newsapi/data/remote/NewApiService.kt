@@ -17,7 +17,7 @@ interface NewApiService {
     fun getSources(): Single<SourcesResponse>
 
     @GET(GET_NEWS)
-    fun getSourceById(@Query("sources") source: String): Single<NewsResponse>
+    fun getArticles(@Query("sources") source: String, @Query("page") page: Int): Single<NewsResponse>
 
     @GET(GET_NEWS)
     fun getNews(@Query("page") page: Int, @Query("language") language: String = "en"): Single<NewsResponse>

@@ -1,4 +1,4 @@
-package com.x0.newsapi.presentation
+package com.x0.newsapi.presentation.ui
 
 import android.view.View
 import com.x0.newsapi.R
@@ -15,15 +15,15 @@ import kotlinx.android.synthetic.main.item_news.descriptionText
 import kotlinx.android.synthetic.main.item_news.sourceTitleText
 import kotlinx.android.synthetic.main.item_news.urlText
 
-class NewsListItem(
+class ArticlesListItem(
     listHeader: ListHeader,
     private val article: Article,
     private val openNewsDetailsObserver: Subject<Article>,
     private val loadMoreNewsObserver: Subject<Article>,
     private val listSize: Int
-) : AbstractSectionableItem<NewsListItem.ViewHolder, ListHeader>(listHeader) {
+) : AbstractSectionableItem<ArticlesListItem.ViewHolder, ListHeader>(listHeader) {
 
-    override fun getLayoutRes(): Int = R.layout.item_news
+    override fun getLayoutRes(): Int = R.layout.item_source_list
 
     override fun createViewHolder(
         view: View,
@@ -96,11 +96,9 @@ class NewsListItem(
     }
 
     override fun equals(other: Any?): Boolean =
-        if (other is NewsListItem) listSize == other.listSize
+        if (other is ArticlesListItem) listSize == other.listSize
         else false
 
-    override fun hashCode(): Int {
-        return listSize
-    }
+    override fun hashCode(): Int = listSize
 
 }

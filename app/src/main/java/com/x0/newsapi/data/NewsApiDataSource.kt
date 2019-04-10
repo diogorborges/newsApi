@@ -12,8 +12,6 @@ interface NewsApiDataSource {
 
     fun insertSources(vararg sources: Source): Completable
 
-    fun getSourceById(@Query("sources") sources: String): Single<NewsResponse>
-
     fun insertNews(vararg news: Article): Completable
 
     fun deleteNews(): Completable

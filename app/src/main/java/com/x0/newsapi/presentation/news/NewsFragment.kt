@@ -17,9 +17,9 @@ import com.x0.newsapi.common.visible
 import com.x0.newsapi.data.model.news.Article
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
-import kotlinx.android.synthetic.main.fragment_news.newsList
-import kotlinx.android.synthetic.main.fragment_news.progressBarLayout
-import kotlinx.android.synthetic.main.fragment_news.swipeRefresh
+import kotlinx.android.synthetic.main.fragment_generic_news.genericList
+import kotlinx.android.synthetic.main.fragment_generic_news.progressBarLayout
+import kotlinx.android.synthetic.main.fragment_generic_news.swipeRefresh
 import javax.inject.Inject
 
 class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
@@ -44,7 +44,7 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? =
-        container?.inflate(R.layout.fragment_news)
+        container?.inflate(R.layout.fragment_generic_news)
 
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,9 +59,9 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
         adapter = FlexibleAdapter(ArrayList<AbstractFlexibleItem<*>>())
         adapter.isAnimateChangesWithDiffUtil = true
 
-        newsList.adapter = adapter
-        newsList.layoutManager = LinearLayoutManager(context)
-        newsList.isNestedScrollingEnabled = true
+        genericList.adapter = adapter
+        genericList.layoutManager = LinearLayoutManager(context)
+        genericList.isNestedScrollingEnabled = true
     }
 
     override fun onRefresh() = presenter.refreshList()

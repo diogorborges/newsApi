@@ -10,9 +10,9 @@ class NewsUseCase @Inject constructor(private val newsApiRepository: NewsApiRepo
     fun getNews(pageNumber: Int, isRefreshing: Boolean): Single<ArrayList<Article>> =
         newsApiRepository.getNews(pageNumber, isRefreshing)
 
-    fun shouldLoadMore() : Boolean = newsApiRepository.shouldLoadMore()
+    fun shouldLoadMoreNews() : Boolean = newsApiRepository.shouldLoadMoreNews()
 
-    fun getPageNumber(): Int = newsApiRepository.getPageNumber()
+    fun getNewsPageNumber(): Int = newsApiRepository.getNewsPageNumber()
 
-    fun saveShouldLoadMore(shouldLoadMore: Boolean) = newsApiRepository.saveShouldLoadMore(shouldLoadMore)
+    fun saveShouldLoadMoreNews(shouldLoadMoreNews: Boolean) = newsApiRepository.saveShouldLoadMoreNews(shouldLoadMoreNews)
 }

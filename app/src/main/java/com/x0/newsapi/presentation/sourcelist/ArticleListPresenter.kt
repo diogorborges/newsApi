@@ -2,10 +2,11 @@ package com.x0.newsapi.presentation.sourcelist
 
 import android.util.Log
 import com.x0.newsapi.R
+import com.x0.newsapi.common.addTo
 import com.x0.newsapi.data.model.news.Article
 import com.x0.newsapi.data.usecase.ArticleUseCase
-import com.x0.newsapi.presentation.ListHeader
-import com.x0.newsapi.presentation.NewsListItem
+import com.x0.newsapi.presentation.ui.ListHeader
+import com.x0.newsapi.presentation.ui.NewsListItem
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -26,6 +27,7 @@ class ArticleListPresenter @Inject constructor(
 
     private var pageNumber: Int = 0
     private var isRefreshing: Boolean = false
+    private lateinit var sourceId: String
 
     companion object {
         private const val TAG = "ArticleListPresenter"
@@ -36,9 +38,11 @@ class ArticleListPresenter @Inject constructor(
         id: String
     ) {
         view = articleList
+        sourceId = id
+
         setupOpenArticleDetailsChangedEvent()
         setupLoadMoreNewsChangedEvent()
-        getArticleList(isRefreshing = false, id = id)
+        getArticleList(isRefreshing = false)
     }
 
     private fun setupOpenArticleDetailsChangedEvent(): Disposable =
@@ -49,27 +53,35 @@ class ArticleListPresenter @Inject constructor(
 
     private fun setupLoadMoreNewsChangedEvent(): Disposable =
         loadMoreNewsObserver
-            .doOnNext { articleUseCase.saveShouldLoadMore(true) }
+            .doOnNext { articleUseCase.saveShouldLoadArticles(true) }
             .subscribe(
-                { getArticleList(isRefreshing = false, id = it) },
+                { getArticleList(isRefreshing = false) },
                 { Log.e(TAG, "Error: $it") })
 
-    private fun getArticleList(isRefreshing: Boolean, id: String) {
+    private fun getArticleList(isRefreshing: Boolean) {
         this.isRefreshing = isRefreshing
 
-        val disposable = articleUseCase.getNews(id, getPageNumber(), isRefreshing)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                setLoaders(isRefreshing, showLoader = true)
-            }
-            .doAfterTerminate {
-                setLoaders(isRefreshing, showLoader = false)
-            }
-            .subscribe(this::onSuccess, this::onError)
-        disposable.addTo(compositeDisposable)
-
+        if (!hasReachedTotalResults()) {
+            val disposable = articleUseCase.getArticles(sourceId, getPageNumber())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    setLoaders(isRefreshing, showLoader = true)
+                }
+                .doAfterTerminate {
+                    setLoaders(isRefreshing, showLoader = false)
+                }
+                .doOnError { Log.e(TAG, "Error: ${it.message}") }
+                .subscribe(this::onSuccess, this::onError)
+            disposable.addTo(compositeDisposable)
+        } else {
+            view.showRefreshing(false)
+        }
     }
+
+    private fun hasReachedTotalResults(): Boolean =
+        articleUseCase.getArticlesPageNumber() > 0 && (articleUseCase.getArticlesListSize() == articleUseCase.getArticlesTotalResult())
+
 
     private fun setLoaders(isRefreshing: Boolean, showLoader: Boolean) = when (isRefreshing) {
         true -> view.showRefreshing(showLoader)
@@ -77,14 +89,14 @@ class ArticleListPresenter @Inject constructor(
     }
 
     private fun getPageNumber(): Int =
-        when (articleUseCase.shouldLoadMore()) {
+        when (articleUseCase.shouldLoadMoreArticles()) {
             true -> {
-                articleUseCase.saveShouldLoadMore(false)
-                pageNumber = articleUseCase.getPageNumber()
+                articleUseCase.saveShouldLoadArticles(false)
+                pageNumber = articleUseCase.getArticlesPageNumber()
                 ++pageNumber
             }
             else -> {
-                pageNumber = articleUseCase.getPageNumber()
+                pageNumber = articleUseCase.getArticlesPageNumber()
                 pageNumber
             }
         }
@@ -116,6 +128,7 @@ class ArticleListPresenter @Inject constructor(
         return listItems
     }
 
-    private fun onError(throwable: Throwable) {
-    }
+    private fun onError(throwable: Throwable) = view.showError(throwable.message)
+
+    fun clearArticles() = articleUseCase.clearArticles()
 }

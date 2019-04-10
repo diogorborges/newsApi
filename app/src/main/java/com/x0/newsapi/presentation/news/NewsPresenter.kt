@@ -5,8 +5,8 @@ import com.x0.newsapi.R
 import com.x0.newsapi.common.addTo
 import com.x0.newsapi.data.model.news.Article
 import com.x0.newsapi.data.usecase.NewsUseCase
-import com.x0.newsapi.presentation.ListHeader
-import com.x0.newsapi.presentation.NewsListItem
+import com.x0.newsapi.presentation.ui.ListHeader
+import com.x0.newsapi.presentation.ui.NewsListItem
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -47,7 +47,7 @@ class NewsPresenter @Inject constructor(
 
     private fun setupLoadMoreNewsChangedEvent(): Disposable =
         loadMoreNewsObserver
-            .doOnNext { newsUseCase.saveShouldLoadMore(true) }
+            .doOnNext { newsUseCase.saveShouldLoadMoreNews(true) }
             .subscribe(
                 { getNews(isRefreshing = false) },
                 { Log.e(TAG, "Error: $it") })
@@ -75,14 +75,14 @@ class NewsPresenter @Inject constructor(
     }
 
     private fun getPageNumber(): Int =
-        when (newsUseCase.shouldLoadMore()) {
+        when (newsUseCase.shouldLoadMoreNews()) {
             true -> {
-                newsUseCase.saveShouldLoadMore(false)
-                pageNumber = newsUseCase.getPageNumber()
+                newsUseCase.saveShouldLoadMoreNews(false)
+                pageNumber = newsUseCase.getNewsPageNumber()
                 ++pageNumber
             }
             else -> {
-                pageNumber = newsUseCase.getPageNumber()
+                pageNumber = newsUseCase.getNewsPageNumber()
                 pageNumber
             }
         }
@@ -98,7 +98,8 @@ class NewsPresenter @Inject constructor(
     private fun prepareListNewsList(newsList: ArrayList<Article>): List<AbstractFlexibleItem<*>> {
         val listItems = ArrayList<AbstractFlexibleItem<*>>()
 
-        val listHeader = ListHeader(R.string.news_header, R.layout.list_header)
+        val listHeader =
+            ListHeader(R.string.news_header, R.layout.list_header)
         newsList.forEach {
             listItems.add(
                 NewsListItem(

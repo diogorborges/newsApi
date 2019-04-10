@@ -1,4 +1,4 @@
-package com.x0.newsapi.presentation
+package com.x0.newsapi.presentation.ui
 
 import android.content.Context
 import android.view.View
@@ -22,11 +22,12 @@ class ListHeader(private val headerStringId: Int, private val headerLayoutId: In
     override fun createViewHolder(
         view: View,
         adapter: FlexibleAdapter<IFlexible<*>>
-    ): ListHeader.ViewHolder = ListHeader.ViewHolder(view, adapter)
+    ): ViewHolder =
+        ViewHolder(view, adapter)
 
     override fun bindViewHolder(
         adapter: FlexibleAdapter<IFlexible<*>>,
-        holder: ListHeader.ViewHolder,
+        holder: ViewHolder,
         position: Int,
         payloads: List<Any>
     ) = holder.bind(headerStringId)

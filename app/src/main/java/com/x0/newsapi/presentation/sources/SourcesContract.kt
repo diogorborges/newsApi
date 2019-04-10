@@ -10,12 +10,9 @@ interface SourcesContract {
         fun showSources(sourcesList: List<AbstractFlexibleItem<*>>)
         fun showError(message: String?)
         fun onSourceClicked(source: Source)
-        fun clearSourcesList()
-        fun showRefreshing(show: Boolean)
     }
 
     interface Presenter {
-        fun refreshList()
         fun setView(sourcesFragment: SourcesFragment)
     }
 }

@@ -19,7 +19,7 @@
             android:layout_marginTop="50dp">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/newsList"
+                android:id="@+id/genericList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"

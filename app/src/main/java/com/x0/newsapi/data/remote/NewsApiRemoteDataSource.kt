@@ -1,7 +1,6 @@
 package com.x0.newsapi.data.remote
 
 import com.x0.newsapi.data.NewsApiDataSource
-import com.x0.newsapi.data.RemoteDataNotFoundException
 import com.x0.newsapi.data.model.news.Article
 import com.x0.newsapi.data.model.news.NewsResponse
 import com.x0.newsapi.data.model.sources.Source
@@ -20,8 +19,8 @@ class NewsApiRemoteDataSource @Inject constructor(private val newApiService: New
     fun getNews(nextPage: Int): Single<NewsResponse> =
         newApiService.getNews(nextPage)
 
-    override fun getSourceById(sources: String): Single<NewsResponse> =
-        newApiService.getSourceById(sources)
+    fun getArticles(sourceId: String, nextPage: Int): Single<NewsResponse> =
+        newApiService.getArticles(sourceId, nextPage)
 
     override fun insertNews(vararg news: Article): Completable = Completable.complete()
 

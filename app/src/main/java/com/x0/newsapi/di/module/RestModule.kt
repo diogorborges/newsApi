@@ -49,7 +49,7 @@ class RestModule(private val application: NewsApiApplication) {
 
         var request = requestBuilder.build()
 
-        request = if (hasNetwork(context)!!)
+        request = if (hasNetwork(context))
             request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
         else
             request.newBuilder().header(

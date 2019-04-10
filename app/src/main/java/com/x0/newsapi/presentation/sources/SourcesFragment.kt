@@ -21,10 +21,9 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import kotlinx.android.synthetic.main.fragment_sources.progressBarLayout
 import kotlinx.android.synthetic.main.fragment_sources.sourcesList
-import kotlinx.android.synthetic.main.fragment_sources.swipeRefresh
 import javax.inject.Inject
 
-class SourcesFragment : Fragment(), SourcesContract.View, SwipeRefreshLayout.OnRefreshListener {
+class SourcesFragment : Fragment(), SourcesContract.View {
 
     @Inject
     lateinit var presenter: SourcesPresenter
@@ -34,6 +33,7 @@ class SourcesFragment : Fragment(), SourcesContract.View, SwipeRefreshLayout.OnR
     companion object {
         const val TITLE = "Sources"
         private const val TAG = "SourcesFragment"
+        const val KEY = "Source"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,8 +56,6 @@ class SourcesFragment : Fragment(), SourcesContract.View, SwipeRefreshLayout.OnR
     }
 
     private fun setupUI() {
-        swipeRefresh.setOnRefreshListener(this)
-
         adapter = FlexibleAdapter(ArrayList<AbstractFlexibleItem<*>>())
         adapter.isAnimateChangesWithDiffUtil = true
 
@@ -66,15 +64,9 @@ class SourcesFragment : Fragment(), SourcesContract.View, SwipeRefreshLayout.OnR
         sourcesList.isNestedScrollingEnabled = true
     }
 
-    override fun onRefresh() = presenter.refreshList()
-
-    override fun showRefreshing(show: Boolean) = with(swipeRefresh) {
-        isRefreshing = show
-    }
-
     override fun onSourceClicked(source: Source) {
         val bundle = Bundle()
-        bundle.putParcelable("SOURCE", source)
+        bundle.putParcelable(KEY, source)
 
         val fragment = ArticleListFragment()
         fragment.arguments = bundle
@@ -93,8 +85,6 @@ class SourcesFragment : Fragment(), SourcesContract.View, SwipeRefreshLayout.OnR
             else -> gone()
         }
     }
-
-    override fun clearSourcesList() = adapter.clear()
 
     override fun showSources(sourcesList: List<AbstractFlexibleItem<*>>) =
         adapter.updateDataSet(sourcesList)
