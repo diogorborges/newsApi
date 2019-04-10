@@ -16,7 +16,6 @@ import com.x0.newsapi.common.visible
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import kotlinx.android.synthetic.main.fragment_generic_news.errorText
-import kotlinx.android.synthetic.main.fragment_generic_news.genericLayout
 import kotlinx.android.synthetic.main.fragment_generic_news.genericList
 import kotlinx.android.synthetic.main.fragment_generic_news.progressBarLayout
 import kotlinx.android.synthetic.main.fragment_generic_news.swipeRefresh
@@ -55,7 +54,7 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
     }
 
     private fun showErrorMessage() {
-        genericLayout.gone()
+        genericList.gone()
         errorText.visible()
     }
 

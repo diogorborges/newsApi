@@ -7,7 +7,6 @@
     android:background="@color/colorAccent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/sourcesLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true">
@@ -16,7 +15,7 @@
             android:id="@+id/sourcesList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margin_size"
+            android:layout_marginTop="@dimen/margin_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

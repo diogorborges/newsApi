@@ -14,7 +14,7 @@
     <dimen name="large_text_size">24sp</dimen>
 
     <!-- List -->
-    <dimen name="top_margin_size">50dp</dimen>
+    <dimen name="margin_size">50dp</dimen>
     <dimen name="width_size">150dp</dimen>
 
 </resources>
