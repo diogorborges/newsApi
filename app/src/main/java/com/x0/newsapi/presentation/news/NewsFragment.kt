@@ -6,9 +6,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.VISIBLE
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.inflate
@@ -71,14 +73,22 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
 
     override fun onRefresh() = presenter.refreshList()
 
+    override fun onPause() {
+        super.onPause()
+
+        if (progressBarLayout.isVisible) progressBarLayout.gone()
+
+        if (swipeRefresh.isRefreshing) swipeRefresh.gone()
+    }
+
     override fun showRefreshing(show: Boolean) = with(swipeRefresh) {
-        this.let {
+        this?.let {
             isRefreshing = show
         }
     }
 
     override fun showLoader(show: Boolean) = with(progressBarLayout) {
-        this.let {
+        this?.let {
             when (show) {
                 true -> visible()
                 else -> gone()
