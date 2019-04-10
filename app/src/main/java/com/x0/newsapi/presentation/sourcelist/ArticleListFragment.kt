@@ -53,9 +53,9 @@ class ArticleListFragment : Fragment(), ArticleListContract.View,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupUI()
         val source = arguments?.getParcelable<Source>(SourcesFragment.KEY)
         source?.id?.let { presenter.setView(this, it) } ?: showErrorMessage()
-        setupUI()
     }
 
     private fun showErrorMessage() {

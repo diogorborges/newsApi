@@ -50,8 +50,8 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        presenter.setView(this)
         setupUI()
+        presenter.setView(this)
     }
 
     private fun showErrorMessage() {
