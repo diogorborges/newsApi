@@ -60,7 +60,6 @@ class RestModule(private val application: NewsApiApplication) {
         chain.proceed(request)
     }
 
-
     @Provides
     @Singleton
     fun provideOkHttpClient(interceptor: Interceptor, context: Context): OkHttpClient {

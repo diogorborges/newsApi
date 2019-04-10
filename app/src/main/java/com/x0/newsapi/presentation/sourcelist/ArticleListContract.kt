@@ -1,6 +1,5 @@
 package com.x0.newsapi.presentation.sourcelist
 
-import com.x0.newsapi.data.model.news.Article
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 
 interface ArticleListContract {

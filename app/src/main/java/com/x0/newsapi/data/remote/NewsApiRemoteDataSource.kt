@@ -1,9 +1,7 @@
 package com.x0.newsapi.data.remote
 
-import com.x0.newsapi.data.model.news.Article
 import com.x0.newsapi.data.model.news.NewsResponse
 import com.x0.newsapi.data.model.sources.Source
-import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -18,4 +16,3 @@ class NewsApiRemoteDataSource @Inject constructor(private val newApiService: New
     fun getArticles(sourceId: String, nextPage: Int): Single<NewsResponse> =
         newApiService.getArticles(sourceId, nextPage)
 }
-

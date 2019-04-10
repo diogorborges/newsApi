@@ -60,15 +60,10 @@ class ArticleListFragment : Fragment(), ArticleListContract.View,
         super.onResume()
 
         val source = arguments?.getParcelable<Source>(SourcesFragment.KEY)
-
         source?.id?.let { presenter.setView(this, it) } ?: showNotFoundSource()
-
-
     }
 
-    private fun showNotFoundSource() {
-        genericLayout.gone()
-    }
+    private fun showNotFoundSource() = genericLayout.gone()
 
     private fun setupUI() {
         swipeRefresh.setOnRefreshListener(this)

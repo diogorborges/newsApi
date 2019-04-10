@@ -85,5 +85,4 @@ class NewsResponseJsonTest {
         )
         assertEquals("2019-04-09T15:56:00Z", article.publishedAt)
     }
-
 }

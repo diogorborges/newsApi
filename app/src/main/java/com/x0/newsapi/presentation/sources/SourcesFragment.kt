@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
 import com.x0.newsapi.common.gone

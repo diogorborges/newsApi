@@ -1,7 +1,7 @@
 package com.x0.newsapi.data.usecase
 
-import com.x0.newsapi.data.repository.ArticleRepository
 import com.x0.newsapi.data.model.news.Article
+import com.x0.newsapi.data.repository.ArticleRepository
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -22,5 +22,4 @@ class ArticleUseCase @Inject constructor(private val articleRepository: ArticleR
     fun getArticlesListSize(): Int = articleRepository.getArticlesListSize()
 
     fun clearArticles() = articleRepository.clearArticles()
-
 }

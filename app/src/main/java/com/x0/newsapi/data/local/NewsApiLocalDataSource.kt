@@ -11,7 +11,7 @@ class NewsApiLocalDataSource @Inject constructor(
     private val newsDao: NewsDao,
     private val paginationNewsRepository: PaginationNewsRepository,
     private val paginationArticlesRepository: PaginationArticlesRepository
-)  {
+) {
 
     fun getSources(): Single<ArrayList<Source>> =
         sourcesDao.getSources().map { ArrayList(it) }
@@ -19,16 +19,12 @@ class NewsApiLocalDataSource @Inject constructor(
     fun insertSources(vararg sources: Source): Completable =
         Completable.fromAction { sourcesDao.insertSources(*sources) }
 
-    //
-
     fun getNews(): Single<ArrayList<Article>> = newsDao.getNews().map { ArrayList(it) }
 
     fun insertNews(vararg news: Article): Completable =
         Completable.fromAction { newsDao.insertNews(*news) }
 
     fun deleteNews(): Completable = Completable.fromAction { newsDao.deleteNews() }
-
-    ///
 
     fun getShouldLoadMoreNews(): Boolean = paginationNewsRepository.shouldLoadMoreNews()
 
@@ -44,8 +40,6 @@ class NewsApiLocalDataSource @Inject constructor(
         paginationNewsRepository.putNewsTotalResults(newsTotalResults)
 
     fun getNewsTotalResult() = paginationNewsRepository.getNewsTotalResults()
-
-    //
 
     fun getShouldLoadMoreArticles(): Boolean = paginationArticlesRepository.shouldLoadMoreArticles()
 

@@ -19,5 +19,4 @@ class GlideModule : AppGlideModule() {
             )
         }
     }
-
 }

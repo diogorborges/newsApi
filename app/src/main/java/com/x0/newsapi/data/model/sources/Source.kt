@@ -45,5 +45,4 @@ data class Source(
 
         override fun newArray(size: Int): Array<Source?> = arrayOfNulls(size)
     }
-
 }

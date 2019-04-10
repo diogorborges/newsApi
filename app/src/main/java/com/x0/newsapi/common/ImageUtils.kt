@@ -1,7 +1,6 @@
 package com.x0.newsapi.common
 
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.x0.newsapi.R
 

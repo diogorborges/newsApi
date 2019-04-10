@@ -29,5 +29,4 @@ data class SourcesResponse(val status: String, val sources: ArrayList<Source>) :
             return arrayOfNulls(size)
         }
     }
-
 }

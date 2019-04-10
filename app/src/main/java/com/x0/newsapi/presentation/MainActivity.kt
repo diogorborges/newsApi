@@ -83,7 +83,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onNavigationItemReselected(item: MenuItem) {
-        Log.i(TAG, "onNavigationItemReselected()");
+        Log.i(TAG, "onNavigationItemReselected()")
     }
 }
-

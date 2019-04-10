@@ -65,5 +65,4 @@ class SourcesResponseJsonTest {
         assertEquals("en", source.language)
         assertEquals("us", source.country)
     }
-
 }

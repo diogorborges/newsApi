@@ -1,7 +1,6 @@
 package com.x0.newsapi.data.local
 
 import android.content.Context
-import android.content.SharedPreferences
 import javax.inject.Singleton
 
 @Singleton
@@ -59,13 +58,12 @@ class PaginationArticlesRepository(context: Context) :
         editor.putInt(ARTICLES_LIST_SIZE, articleListSize).apply()
     }
 
-    fun clearArticles()  {
+    fun clearArticles() {
         val editor = sharedPreferences.edit()
-        editor.remove(ARTICLES_LIST_SIZE);
-        editor.remove(ARTICLES_TOTAL_RESULTS);
-        editor.remove(SHOULD_LOAD_MORE_ARTICLES);
-        editor.remove(ARTICLES_PAGE_ID);
-        editor.apply();
+        editor.remove(ARTICLES_LIST_SIZE)
+        editor.remove(ARTICLES_TOTAL_RESULTS)
+        editor.remove(SHOULD_LOAD_MORE_ARTICLES)
+        editor.remove(ARTICLES_PAGE_ID)
+        editor.apply()
     }
-
 }

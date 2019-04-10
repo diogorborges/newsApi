@@ -102,5 +102,4 @@ class GenericListItem(
         else false
 
     override fun hashCode(): Int = listSize
-
 }

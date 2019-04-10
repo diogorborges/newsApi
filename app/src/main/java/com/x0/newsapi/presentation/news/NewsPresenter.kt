@@ -1,12 +1,11 @@
 package com.x0.newsapi.presentation.news
 
-import android.util.Log
 import com.x0.newsapi.R
 import com.x0.newsapi.common.addTo
 import com.x0.newsapi.data.model.news.Article
 import com.x0.newsapi.data.usecase.NewsUseCase
-import com.x0.newsapi.presentation.ui.ListHeader
 import com.x0.newsapi.presentation.ui.GenericListItem
+import com.x0.newsapi.presentation.ui.ListHeader
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -56,7 +55,6 @@ class NewsPresenter @Inject constructor(
             }
             .subscribe(this::onSuccess, this::onError)
         disposable.addTo(compositeDisposable)
-
     }
 
     private fun setLoaders(isRefreshing: Boolean, showLoader: Boolean) = when (isRefreshing) {

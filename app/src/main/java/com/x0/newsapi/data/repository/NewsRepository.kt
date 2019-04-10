@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.Log
 import com.x0.newsapi.common.ListUtils
 import com.x0.newsapi.common.hasNetwork
-import com.x0.newsapi.data.FailureException
 import com.x0.newsapi.data.NetworkException
 import com.x0.newsapi.data.local.NewsApiLocalDataSource
 import com.x0.newsapi.data.model.news.Article
@@ -133,7 +132,7 @@ class NewsRepository @Inject constructor(
     private fun insertNews(vararg news: Article): Completable =
         newsApiLocalDataSource.insertNews(*news)
 
-     private fun deleteNews(): Completable = newsApiLocalDataSource.deleteNews()
+    private fun deleteNews(): Completable = newsApiLocalDataSource.deleteNews()
         .doOnError { Log.e(TAG, "Failure deleting news...") }
 
     fun shouldLoadMoreNews(): Boolean = newsApiLocalDataSource.getShouldLoadMoreNews()

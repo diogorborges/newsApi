@@ -79,5 +79,4 @@ class SourcesListItem(
     override fun hashCode(): Int {
         return source.hashCode()
     }
-
 }

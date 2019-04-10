@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.x0.newsapi.data.model.news.Article
-import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao

@@ -2,7 +2,6 @@ package com.x0.newsapi.di.module
 
 import android.content.Context
 import androidx.room.Room
-import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.data.local.NewsApiDatabase
 import com.x0.newsapi.data.local.NewsDao
 import com.x0.newsapi.data.local.SourcesDao
