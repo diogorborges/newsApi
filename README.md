@@ -16,7 +16,3 @@ An MVP Android application using the News Api
   - Test: Mockito
   - Rx: RxJava and RxAndroid
   - Kotlin: Kotlin and KTX
-  
-## TODO
-  - Create more Unit Tests
-  - Create Details screen
