@@ -42,6 +42,7 @@ class SourcesPresenter @Inject constructor(
 
     private fun getSources() {
         val disposable = sourceUseCase.getSources()
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 view.showLoader(true)
