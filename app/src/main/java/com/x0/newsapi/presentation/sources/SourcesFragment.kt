@@ -20,7 +20,6 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import kotlinx.android.synthetic.main.fragment_sources.errorText
 import kotlinx.android.synthetic.main.fragment_sources.progressBarLayout
-import kotlinx.android.synthetic.main.fragment_sources.sourcesLayout
 import kotlinx.android.synthetic.main.fragment_sources.sourcesList
 import javax.inject.Inject
 
@@ -67,7 +66,7 @@ class SourcesFragment : Fragment(), SourcesContract.View {
     }
 
     private fun showErrorMessage() {
-        sourcesLayout.gone()
+        sourcesList.gone()
         errorText.visible()
     }
 

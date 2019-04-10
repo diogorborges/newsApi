@@ -8,7 +8,6 @@
     android:background="@color/colorAccent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/genericLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true">
@@ -17,7 +16,8 @@
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/top_margin_size">
+            android:layout_marginBottom="@dimen/margin_size"
+            android:layout_marginTop="@dimen/margin_size">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/genericList"

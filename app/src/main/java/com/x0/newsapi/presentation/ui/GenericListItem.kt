@@ -1,7 +1,7 @@
 package com.x0.newsapi.presentation.ui
 
 import android.view.View
-import com.x0.newsapi.R
+import com.x0.newsapi.common.formattedDate
 import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.setThumbnailImage
 import com.x0.newsapi.data.model.news.Article
@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.item_generic.publishedDayText
 import kotlinx.android.synthetic.main.item_generic.thumbnailImage
 import kotlinx.android.synthetic.main.item_generic.titleText
 
+
 class GenericListItem(
     listHeader: ListHeader,
     private val article: Article,
@@ -24,7 +25,7 @@ class GenericListItem(
     private val listSize: Int
 ) : AbstractSectionableItem<GenericListItem.ViewHolder, ListHeader>(listHeader) {
 
-    override fun getLayoutRes(): Int = R.layout.item_generic
+    override fun getLayoutRes(): Int = com.x0.newsapi.R.layout.item_generic
 
     override fun createViewHolder(
         view: View,
@@ -89,11 +90,17 @@ class GenericListItem(
         }
 
         private fun setAuthorText(article: Article) = with(authorText) {
-            text = article.author
+            article.author?.let {
+                text = it
+            }
         }
 
         private fun setPublishedDayText(article: Article) = with(publishedDayText) {
-            text = article.publishedAt
+            try {
+                text = formattedDate(article.publishedAt)
+            } catch (e: Exception) {
+                gone()
+            }
         }
     }
 
