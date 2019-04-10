@@ -102,7 +102,7 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
     override fun showError(message: String?) {
         message?.let {
             Log.e(TAG, "Error: $it")
-            showErrorMessage()
+//            showErrorMessage()
         }
     }
 

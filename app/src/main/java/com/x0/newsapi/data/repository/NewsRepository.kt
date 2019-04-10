@@ -95,7 +95,7 @@ class NewsRepository @Inject constructor(
     ): Single<ArrayList<Article>> =
         when (hasNetwork(context)) {
             true -> {
-                newsApiRemoteDataSource.getNews(nextPage)
+                deleteNews().andThen(newsApiRemoteDataSource.getNews(nextPage))
                     .flatMap {
                         when (it.status) {
                             StatusType.STATUS_OK.toLowerCase() -> {
@@ -109,10 +109,6 @@ class NewsRepository @Inject constructor(
                     }
                     .map { it.articles }
                     .doOnSuccess {
-                        Log.i(TAG, "Removing old new from DB...")
-                        deleteNews()
-                    }
-                    .doAfterSuccess {
                         Log.i(TAG, "Dispatching ${it.size} new from API...")
                         persistNews(it, nextPage)
                     }
