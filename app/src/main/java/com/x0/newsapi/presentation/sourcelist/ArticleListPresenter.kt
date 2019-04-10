@@ -6,7 +6,7 @@ import com.x0.newsapi.common.addTo
 import com.x0.newsapi.data.model.news.Article
 import com.x0.newsapi.data.usecase.ArticleUseCase
 import com.x0.newsapi.presentation.ui.ListHeader
-import com.x0.newsapi.presentation.ui.NewsListItem
+import com.x0.newsapi.presentation.ui.GenericListItem
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -115,7 +115,7 @@ class ArticleListPresenter @Inject constructor(
         val listHeader = ListHeader(R.string.article_header, R.layout.list_header)
         articleList.forEach {
             listItems.add(
-                NewsListItem(
+                GenericListItem(
                     listHeader,
                     it,
                     openArticleDetailsObserver,

@@ -43,6 +43,7 @@ dependencies {
 
     implementation uiDependencies.flexibleAdapter
     implementation uiDependencies.flexibleAdapterUI
+    implementation uiDependencies.glide
 
     implementation googleDependencies.appCompat
     implementation googleDependencies.material

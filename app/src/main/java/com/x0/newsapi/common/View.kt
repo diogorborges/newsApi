@@ -33,7 +33,8 @@ fun View.getString(id: Int): String = context.getString(id)
 
 fun View.getString(id: Int, vararg formatArgs: Any): String = context.getString(id, *formatArgs)
 
-fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View = LayoutInflater.from(context).inflate(layoutId, this, attachToRoot)
+fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View =
+    LayoutInflater.from(context).inflate(layoutId, this, attachToRoot)
 
 fun View.clickWithDebounce(debounceTime: Long = 600L, action: () -> Unit) {
     setOnClickListener(object : View.OnClickListener {

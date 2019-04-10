@@ -4,6 +4,7 @@ import android.view.View
 import com.x0.newsapi.R
 import com.x0.newsapi.common.clickWithDebounce
 import com.x0.newsapi.common.gone
+import com.x0.newsapi.common.setThumbnailImage
 import com.x0.newsapi.data.model.news.Article
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
@@ -11,19 +12,21 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 import io.reactivex.subjects.Subject
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_news.descriptionText
-import kotlinx.android.synthetic.main.item_news.sourceTitleText
-import kotlinx.android.synthetic.main.item_news.urlText
+import kotlinx.android.synthetic.main.item_generic.authorText
+import kotlinx.android.synthetic.main.item_generic.descriptionText
+import kotlinx.android.synthetic.main.item_generic.publishedDayText
+import kotlinx.android.synthetic.main.item_generic.thumbnailImage
+import kotlinx.android.synthetic.main.item_generic.titleText
 
-class ArticlesListItem(
+class GenericListItem(
     listHeader: ListHeader,
     private val article: Article,
-    private val openNewsDetailsObserver: Subject<Article>,
-    private val loadMoreNewsObserver: Subject<Article>,
+    private val openDetailsObserver: Subject<Article>,
+    private val loadMoreObserver: Subject<Article>,
     private val listSize: Int
-) : AbstractSectionableItem<ArticlesListItem.ViewHolder, ListHeader>(listHeader) {
+) : AbstractSectionableItem<GenericListItem.ViewHolder, ListHeader>(listHeader) {
 
-    override fun getLayoutRes(): Int = R.layout.item_source_list
+    override fun getLayoutRes(): Int = R.layout.item_generic
 
     override fun createViewHolder(
         view: View,
@@ -38,8 +41,8 @@ class ArticlesListItem(
         payloads: List<Any>
     ) = holder.bind(
         article,
-        openNewsDetailsObserver,
-        loadMoreNewsObserver,
+        openDetailsObserver,
+        loadMoreObserver,
         position,
         listSize
     )
@@ -54,13 +57,21 @@ class ArticlesListItem(
             position: Int,
             listSize: Int
         ) {
-            setSourceTitleText(article)
+            setImageView(article)
+            setTitleText(article)
             setDescriptionText(article)
-            setUrlText(article)
+            setAuthorText(article)
+            setPublishedDayText(article)
 
             setOpenArticleDetails(article, openNewsDetailsObserver)
 
             setShouldLoadMoreNews(position, listSize, loadMoreNewsObserver, article)
+        }
+
+        private fun setImageView(article: Article) = with(thumbnailImage) {
+            article.urlToImage?.let {
+                setThumbnailImage(this, it)
+            }
         }
 
         private fun setShouldLoadMoreNews(
@@ -73,7 +84,7 @@ class ArticlesListItem(
                 loadMoreNewsObserver.onNext(article)
         }
 
-        private fun setSourceTitleText(article: Article) = with(sourceTitleText) {
+        private fun setTitleText(article: Article) = with(titleText) {
             text = article.source.name
         }
 
@@ -83,8 +94,12 @@ class ArticlesListItem(
             } ?: gone()
         }
 
-        private fun setUrlText(article: Article) = with(urlText) {
-            text = article.url
+        private fun setAuthorText(article: Article) = with(authorText) {
+            text = article.author
+        }
+
+        private fun setPublishedDayText(article: Article) = with(publishedDayText) {
+            text = article.publishedAt
         }
 
         private fun setOpenArticleDetails(
@@ -96,7 +111,7 @@ class ArticlesListItem(
     }
 
     override fun equals(other: Any?): Boolean =
-        if (other is ArticlesListItem) listSize == other.listSize
+        if (other is GenericListItem) listSize == other.listSize
         else false
 
     override fun hashCode(): Int = listSize

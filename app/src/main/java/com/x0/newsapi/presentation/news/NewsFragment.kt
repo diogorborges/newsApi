@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.x0.newsapi.NewsApiApplication
-import com.x0.newsapi.R
 import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.inflate
 import com.x0.newsapi.common.visible
@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_generic_news.genericList
 import kotlinx.android.synthetic.main.fragment_generic_news.progressBarLayout
 import kotlinx.android.synthetic.main.fragment_generic_news.swipeRefresh
 import javax.inject.Inject
+
 
 class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
 
@@ -44,7 +45,7 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? =
-        container?.inflate(R.layout.fragment_generic_news)
+        container?.inflate(com.x0.newsapi.R.layout.fragment_generic_news)
 
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
