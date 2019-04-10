@@ -52,8 +52,9 @@ class SourcesFragment : Fragment(), SourcesContract.View {
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.setView(this)
+
         setupUI()
+        presenter.setView(this)
     }
 
     private fun setupUI() {
