@@ -11,6 +11,7 @@ import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.internal.disposables.DisposableHelper.dispose
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
@@ -108,4 +109,6 @@ class NewsPresenter @Inject constructor(
     private fun onError(throwable: Throwable) {
         view.showError(throwable.message)
     }
+
+    fun destroy() = compositeDisposable.dispose()
 }

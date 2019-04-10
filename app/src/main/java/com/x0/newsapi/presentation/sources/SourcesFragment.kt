@@ -101,4 +101,10 @@ class SourcesFragment : Fragment(), SourcesContract.View {
             showErrorMessage()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        presenter.destroy()
+    }
 }

@@ -67,4 +67,6 @@ class SourcesPresenter @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) = view.showError(throwable.message)
+
+    fun destroy() = compositeDisposable.dispose()
 }
