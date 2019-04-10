@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
-import com.x0.newsapi.common.gone
-import com.x0.newsapi.common.visible
 import com.x0.newsapi.presentation.news.NewsFragment
 import com.x0.newsapi.presentation.sources.SourcesFragment
 import kotlinx.android.synthetic.main.activity_container.toolbar
@@ -82,13 +80,6 @@ class MainActivity : AppCompatActivity(),
                 FRAGMENT_KEY
             )
             .commit()
-    }
-
-    fun showToolbar(status: Boolean) = with(toolbar) {
-        when (status) {
-            true -> visible()
-            else -> gone()
-        }
     }
 
     override fun onNavigationItemReselected(item: MenuItem) {

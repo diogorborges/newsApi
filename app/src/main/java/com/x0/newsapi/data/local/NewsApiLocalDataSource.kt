@@ -1,6 +1,5 @@
 package com.x0.newsapi.data.local
 
-import com.x0.newsapi.data.NewsApiDataSource
 import com.x0.newsapi.data.model.news.Article
 import com.x0.newsapi.data.model.sources.Source
 import io.reactivex.Completable
@@ -12,22 +11,22 @@ class NewsApiLocalDataSource @Inject constructor(
     private val newsDao: NewsDao,
     private val paginationNewsRepository: PaginationNewsRepository,
     private val paginationArticlesRepository: PaginationArticlesRepository
-) : NewsApiDataSource {
+)  {
 
-    override fun getSources(): Single<ArrayList<Source>> =
+    fun getSources(): Single<ArrayList<Source>> =
         sourcesDao.getSources().map { ArrayList(it) }
 
-    override fun insertSources(vararg sources: Source): Completable =
+    fun insertSources(vararg sources: Source): Completable =
         Completable.fromAction { sourcesDao.insertSources(*sources) }
 
     //
 
     fun getNews(): Single<ArrayList<Article>> = newsDao.getNews().map { ArrayList(it) }
 
-    override fun insertNews(vararg news: Article): Completable =
+    fun insertNews(vararg news: Article): Completable =
         Completable.fromAction { newsDao.insertNews(*news) }
 
-    override fun deleteNews(): Completable = Completable.fromAction { newsDao.deleteNews() }
+    fun deleteNews(): Completable = Completable.fromAction { newsDao.deleteNews() }
 
     ///
 

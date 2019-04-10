@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.x0.newsapi.NewsApiApplication
@@ -22,8 +21,7 @@ import kotlinx.android.synthetic.main.fragment_generic_news.progressBarLayout
 import kotlinx.android.synthetic.main.fragment_generic_news.swipeRefresh
 import javax.inject.Inject
 
-
-class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
+class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener, View.OnClickListener {
 
     @Inject
     lateinit var presenter: NewsPresenter
@@ -50,6 +48,7 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         presenter.setView(this)
         setupUI()
     }
@@ -63,6 +62,10 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
         genericList.adapter = adapter
         genericList.layoutManager = LinearLayoutManager(context)
         genericList.isNestedScrollingEnabled = true
+    }
+
+    override fun onClick(p0: View?) {
+        activity?.onBackPressed()
     }
 
     override fun onRefresh() = presenter.refreshList()

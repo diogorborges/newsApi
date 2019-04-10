@@ -1,12 +1,12 @@
 package com.x0.newsapi.data.usecase
 
-import com.x0.newsapi.data.NewsApiRepository
+import com.x0.newsapi.data.repository.SourcesRepository
 import com.x0.newsapi.data.model.sources.Source
 import io.reactivex.Single
 import javax.inject.Inject
 
-class SourcesUseCase @Inject constructor(private val newsApiRepository: NewsApiRepository) {
+class SourcesUseCase @Inject constructor(private val sourcesRepository: SourcesRepository) {
 
-    fun getSources(): Single<ArrayList<Source>> = newsApiRepository.getSources()
+    fun getSources(): Single<ArrayList<Source>> = sourcesRepository.getSources()
 
 }

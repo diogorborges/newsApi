@@ -9,7 +9,10 @@ import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.list_header.listHeader
 
-class ListHeader(private val headerStringId: Int, private val headerLayoutId: Int) :
+class ListHeader(
+    private val headerStringId: Int,
+    private val headerLayoutId: Int
+) :
     AbstractHeaderItem<ListHeader.ViewHolder>() {
 
     override fun equals(other: Any?): Boolean {

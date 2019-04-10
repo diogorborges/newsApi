@@ -1,0 +1,18 @@
+{
+  "status": "ok",
+  "totalResults": 835,
+  "articles": [
+    {
+      "source": {
+        "id": "wired",
+        "name": "Wired"
+      },
+      "author": "Michael Hardy",
+      "title": "Photographing All 2,000 Miles of the US-Mexico Border",
+      "description": "America's border communities are politically and culturally diverse, but they agree on one thing: A border wall is a terrible idea.",
+      "url": "https://www.wired.com/story/mexico-us-border-wall-photo-gallery/",
+      "urlToImage": "https://media.wired.com/photos/5cabb6ab4e9bfc631a59198b/191:100/pass/01_ElliotRoss_AmericanBackyard.jpg",
+      "publishedAt": "2019-04-09T15:56:00Z"
+    }
+  ]
+}

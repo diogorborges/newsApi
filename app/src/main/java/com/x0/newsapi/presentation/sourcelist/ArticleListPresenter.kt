@@ -82,7 +82,6 @@ class ArticleListPresenter @Inject constructor(
     private fun hasReachedTotalResults(): Boolean =
         articleUseCase.getArticlesPageNumber() > 0 && (articleUseCase.getArticlesListSize() == articleUseCase.getArticlesTotalResult())
 
-
     private fun setLoaders(isRefreshing: Boolean, showLoader: Boolean) = when (isRefreshing) {
         true -> view.showRefreshing(showLoader)
         else -> view.showLoader(showLoader)

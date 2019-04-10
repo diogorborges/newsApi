@@ -1,26 +1,26 @@
 package com.x0.newsapi.data.usecase
 
-import com.x0.newsapi.data.NewsApiRepository
+import com.x0.newsapi.data.repository.ArticleRepository
 import com.x0.newsapi.data.model.news.Article
 import io.reactivex.Single
 import javax.inject.Inject
 
-class ArticleUseCase @Inject constructor(private val newsApiRepository: NewsApiRepository) {
+class ArticleUseCase @Inject constructor(private val articleRepository: ArticleRepository) {
 
     fun getArticles(sourceId: String, pageNumber: Int): Single<ArrayList<Article>> =
-        newsApiRepository.getArticles(sourceId, pageNumber)
+        articleRepository.getArticles(sourceId, pageNumber)
 
-    fun shouldLoadMoreArticles(): Boolean = newsApiRepository.shouldLoadMoreArticles()
+    fun shouldLoadMoreArticles(): Boolean = articleRepository.shouldLoadMoreArticles()
 
-    fun getArticlesPageNumber(): Int = newsApiRepository.getArticlesPageNumber()
+    fun getArticlesPageNumber(): Int = articleRepository.getArticlesPageNumber()
 
     fun saveShouldLoadArticles(shouldLoadMoreArticles: Boolean) =
-        newsApiRepository.saveShouldLoadMoreArticles(shouldLoadMoreArticles)
+        articleRepository.saveShouldLoadMoreArticles(shouldLoadMoreArticles)
 
-    fun getArticlesTotalResult(): Int = newsApiRepository.getArticlesTotalResult()
+    fun getArticlesTotalResult(): Int = articleRepository.getArticlesTotalResult()
 
-    fun getArticlesListSize(): Int = newsApiRepository.getArticlesListSize()
+    fun getArticlesListSize(): Int = articleRepository.getArticlesListSize()
 
-    fun clearArticles() = newsApiRepository.clearArticles()
+    fun clearArticles() = articleRepository.clearArticles()
 
 }
