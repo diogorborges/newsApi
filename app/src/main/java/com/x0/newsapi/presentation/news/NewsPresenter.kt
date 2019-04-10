@@ -1,5 +1,6 @@
 package com.x0.newsapi.presentation.news
 
+import android.util.Log
 import com.x0.newsapi.R
 import com.x0.newsapi.common.addTo
 import com.x0.newsapi.data.model.news.Article
@@ -39,7 +40,9 @@ class NewsPresenter @Inject constructor(
     private fun setupLoadMoreNewsChangedEvent(): Disposable =
         loadMoreNewsObserver
             .doOnNext { newsUseCase.saveShouldLoadMoreNews(true) }
-            .subscribe { getNews(isRefreshing = false) }
+            .subscribe(
+                { getNews(isRefreshing = false) },
+                { Log.e(TAG, "Error: $it") })
 
     private fun getNews(isRefreshing: Boolean) {
         this.isRefreshing = isRefreshing
@@ -103,5 +106,6 @@ class NewsPresenter @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
+        view.showError(throwable.message)
     }
 }
