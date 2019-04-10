@@ -1,0 +1,70 @@
+ext {
+    flexibleAdapterVersion = '5.0.6'
+    flexibleAdapterUIVersion = '1.0.0-b5'
+    googleVersion = '1.0.0'
+    constraintVersion = '1.1.3'
+    daggerVersion = '2.16'
+    retrofitVersion = '2.4.0'
+    okHttpVersion = '3.10.0'
+    mockitoVersion = '2.20.0'
+    mockitoInlineVersion = '2.13.0'
+    testrunnerVersion = '1.1.2-alpha02'
+    junitVersion = '4.12'
+    rxJavaVersion = '2.2.1'
+    rxAndroidVersion = '2.1.0'
+    jsonVersion = '20140107'
+    ktxVersion = '1.1.0-alpha05'
+    roomVersion = '2.0.0-rc01'
+    glideVersion = '4.8.0'
+    apacheVersion = '2.4'
+
+    uiDependencies = [
+            flexibleAdapter  : "eu.davidea:flexible-adapter:${flexibleAdapterVersion}",
+            flexibleAdapterUI: "eu.davidea:flexible-adapter-ui:${flexibleAdapterUIVersion}",
+            glide            : "com.github.bumptech.glide:glide:${glideVersion}",
+            glideCompiler    : "com.github.bumptech.glide:compiler:${glideVersion}"
+    ]
+
+    googleDependencies = [
+            appCompat     : "androidx.appcompat:appcompat:$googleVersion",
+            material      : "com.google.android.material:material:$googleVersion",
+            cardView      : "androidx.cardview:cardview:$googleVersion",
+            recyclerView  : "androidx.recyclerview:recyclerview:$googleVersion",
+            constraint    : "androidx.constraintlayout:constraintlayout:$constraintVersion",
+            dagger        : "com.google.dagger:dagger:$daggerVersion",
+            daggerCompiler: "com.google.dagger:dagger-compiler:$daggerVersion",
+            roomCompiler  : "androidx.room:room-compiler:$roomVersion",
+            roomRunTime   : "androidx.room:room-runtime:$roomVersion",
+            roomRx        : "androidx.room:room-rxjava2:$roomVersion"
+    ]
+
+    squareDependencies = [
+            retrofit              : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofit2gson         : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            retrofit2rxjavaAdapter: "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+            okhttp3               : "com.squareup.okhttp3:okhttp:$okHttpVersion",
+            okhttp3logging        : "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+    ]
+
+    testDependencies = [
+            mockito      : "org.mockito:mockito-core:$mockitoVersion",
+            mockitoInline: "org.mockito:mockito-inline:$mockitoInlineVersion",
+            testRunner   : "androidx.test:runner:$testrunnerVersion",
+            junit        : "junit:junit:$junitVersion",
+            json         : "org.json:json:$jsonVersion"
+    ]
+
+    rxDependencies = [
+            rxJava   : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+            rxAndroid: "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    ]
+
+    kotlinDependencies = [
+            kotlinStdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            ktx         : "androidx.core:core-ktx:$ktxVersion"
+    ]
+
+    apacheDependencies = [
+            apache: "org.apache.directory.studio:org.apache.commons.io:${apacheVersion}"
+    ]
+}

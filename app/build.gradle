@@ -1,0 +1,81 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion config.compileSdkVersion
+    defaultConfig {
+        applicationId "com.x0.newsapi"
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildTypes.each {
+        it.buildConfigField 'String', 'NEWS_API_KEY', NewsApikey
+    }
+    lintOptions {
+        checkAllWarnings true
+        warningsAsErrors true
+        baseline file("lint-baseline.xml")
+    }
+    androidExtensions {
+        experimental = true
+    }
+}
+
+dependencies {
+    def uiDependencies = rootProject.ext.uiDependencies
+    def googleDependencies = rootProject.ext.googleDependencies
+    def squareDependencies = rootProject.ext.squareDependencies
+    def testDependencies = rootProject.ext.testDependencies
+    def rxDependencies = rootProject.ext.rxDependencies
+    def kotlinDependencies = rootProject.ext.kotlinDependencies
+    def apacheDependencies = rootProject.ext.apacheDependencies
+
+    implementation uiDependencies.flexibleAdapter
+    implementation uiDependencies.flexibleAdapterUI
+    implementation uiDependencies.glide
+    kapt uiDependencies.glideCompiler
+
+    implementation googleDependencies.appCompat
+    implementation googleDependencies.material
+    implementation googleDependencies.cardView
+    implementation googleDependencies.recyclerView
+    implementation googleDependencies.constraint
+    implementation googleDependencies.roomRunTime
+    implementation googleDependencies.roomRx
+    kapt googleDependencies.roomCompiler
+    implementation googleDependencies.dagger
+    kapt googleDependencies.daggerCompiler
+
+    implementation squareDependencies.retrofit
+    implementation squareDependencies.retrofit2gson
+    implementation squareDependencies.retrofit2rxjavaAdapter
+    implementation squareDependencies.okhttp3
+    implementation squareDependencies.okhttp3logging
+
+    testImplementation testDependencies.mockito
+    testImplementation testDependencies.mockitoInline
+    testImplementation testDependencies.testRunner
+    testImplementation testDependencies.junit
+    testImplementation testDependencies.json
+
+    implementation rxDependencies.rxJava
+    implementation rxDependencies.rxAndroid
+    implementation kotlinDependencies.kotlinStdlib
+    implementation kotlinDependencies.ktx
+
+    implementation apacheDependencies.apache
+}
+
+apply plugin: 'kotlin-android-extensions'
