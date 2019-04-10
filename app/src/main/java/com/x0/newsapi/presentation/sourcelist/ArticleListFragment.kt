@@ -105,4 +105,10 @@ class ArticleListFragment : Fragment(), ArticleListContract.View,
             showErrorMessage()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        presenter.destroy()
+    }
 }

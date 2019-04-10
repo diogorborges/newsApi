@@ -10,7 +10,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.VISIBLE
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.inflate
@@ -105,5 +104,11 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
             Log.e(TAG, "Error: $it")
             showErrorMessage()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        presenter.destroy()
     }
 }
