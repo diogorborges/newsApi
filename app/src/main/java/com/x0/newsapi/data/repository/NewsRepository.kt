@@ -76,8 +76,11 @@ class NewsRepository @Inject constructor(
                         currentNews
                     }
                     .doOnSuccess {
-                        Log.i(TAG, "Merging ${it.size} new from API/DB...")
+                        Log.i(TAG, "Removing old new from DB...")
                         deleteNews()
+                    }
+                    .doAfterSuccess {
+                        Log.i(TAG, "Merging ${it.size} new from API/DB...")
                         persistNews(it, nextPage)
                     }
                     .doOnError {
@@ -106,8 +109,11 @@ class NewsRepository @Inject constructor(
                     }
                     .map { it.articles }
                     .doOnSuccess {
-                        Log.i(TAG, "Dispatching ${it.size} news from API...")
+                        Log.i(TAG, "Removing old new from DB...")
                         deleteNews()
+                    }
+                    .doAfterSuccess {
+                        Log.i(TAG, "Dispatching ${it.size} new from API...")
                         persistNews(it, nextPage)
                     }
                     .doOnError {
