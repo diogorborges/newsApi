@@ -1,5 +1,5 @@
 # newsApi
-An MVP App using the News Api
+An MVP Android application using the News Api
 
 ## Requirements
   - Android API 21~28
