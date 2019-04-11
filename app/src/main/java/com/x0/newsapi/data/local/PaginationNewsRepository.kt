@@ -39,8 +39,7 @@ class PaginationNewsRepository(context: Context) :
     }
 
     fun getNewsTotalResults(): Int {
-        val int = sharedPreferences.getInt(NEWS_TOTAL_RESULTS, 0)
-        return int
+        return sharedPreferences.getInt(NEWS_TOTAL_RESULTS, 0)
     }
 
     fun putNewsTotalResults(newsTotalResults: Int) {

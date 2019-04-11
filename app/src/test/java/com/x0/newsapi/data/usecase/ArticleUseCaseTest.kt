@@ -23,9 +23,7 @@ class ArticleUseCaseTest : DefaultPluginTestSetup() {
     private lateinit var articleRepository: ArticleRepository
 
     @Before
-    fun setup() {
-        MockitoAnnotations.initMocks(this)
-    }
+    fun setup() = MockitoAnnotations.initMocks(this)
 
     @Test
     fun testGetArticlePageNumber() {
