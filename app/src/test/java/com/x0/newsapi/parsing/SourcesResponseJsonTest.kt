@@ -1,4 +1,4 @@
-package com.x0.newsapi
+package com.x0.newsapi.parsing
 
 import com.google.gson.Gson
 import com.x0.newsapi.common.JsonUtil

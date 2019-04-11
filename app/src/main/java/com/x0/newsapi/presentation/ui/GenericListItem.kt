@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.item_generic.publishedDayText
 import kotlinx.android.synthetic.main.item_generic.thumbnailImage
 import kotlinx.android.synthetic.main.item_generic.titleText
 
-
 class GenericListItem(
     listHeader: ListHeader,
     private val article: Article,
