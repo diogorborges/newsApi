@@ -61,7 +61,6 @@ class ArticleListPresenter @Inject constructor(
                 .doAfterTerminate {
                     setLoaders(isRefreshing, showLoader = false)
                 }
-                .doOnError { Log.e(TAG, "Error: ${it.message}") }
                 .subscribe(this::onSuccess, this::onError)
             disposable.addTo(compositeDisposable)
         } else {
