@@ -106,9 +106,7 @@ class NewsPresenter @Inject constructor(
         return listItems
     }
 
-    private fun onError(throwable: Throwable) {
-        view.showError(throwable.message)
-    }
+    private fun onError(throwable: Throwable) = view.showError(throwable.message)
 
     fun destroy() = compositeDisposable.dispose()
 }

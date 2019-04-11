@@ -21,8 +21,7 @@ class PaginationArticlesRepository(context: Context) :
     }
 
     fun getArticlesPageNumber(): Int {
-        val int = sharedPreferences.getInt(ARTICLES_PAGE_ID, 0)
-        return int
+        return sharedPreferences.getInt(ARTICLES_PAGE_ID, 0)
     }
 
     fun putArticlesPageNumber(pagerNumber: Int) {
@@ -39,8 +38,7 @@ class PaginationArticlesRepository(context: Context) :
     }
 
     fun getArticlesTotalResults(): Int {
-        val int = sharedPreferences.getInt(ARTICLES_TOTAL_RESULTS, 0)
-        return int
+        return sharedPreferences.getInt(ARTICLES_TOTAL_RESULTS, 0)
     }
 
     fun putArticlesTotalResults(newsTotalResults: Int) {
@@ -49,8 +47,7 @@ class PaginationArticlesRepository(context: Context) :
     }
 
     fun getArticlesListSize(): Int {
-        val int = sharedPreferences.getInt(ARTICLES_LIST_SIZE, 0)
-        return int
+        return sharedPreferences.getInt(ARTICLES_LIST_SIZE, 0)
     }
 
     fun putArticleListSize(articleListSize: Int) {
