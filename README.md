@@ -8,6 +8,7 @@ MVP Android application using the News Api
   - ./gradlew installDebug
   - ./gradlew lint
   - ./gradlew ktlint
+  - ./gradlew test
 
 ## Libraries Used
   - UI: FlexibleAdapter and Glide
