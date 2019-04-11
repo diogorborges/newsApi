@@ -1,5 +1,5 @@
 # newsApi
-An MVP Android application using the News Api
+MVP Android application using the News Api
 
 ## Requirements
   - Android API 21~28
@@ -15,4 +15,4 @@ An MVP Android application using the News Api
   - Square: Retrofit and OkHttp
   - Test: Mockito
   - Rx: RxJava and RxAndroid
-  - Kotlin: Kotlin and KTX
+  - Kotlin: Kotlin, KTlint and KTX
