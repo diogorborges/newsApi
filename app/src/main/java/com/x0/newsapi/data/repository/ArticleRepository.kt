@@ -34,7 +34,6 @@ class ArticleRepository @Inject constructor(
                     .doAfterSuccess { newsApiLocalDataSource.saveArticlesTotalResult(it.totalResults) }
                     .map { it.articles }
                     .doOnSuccess {
-                        Log.i(TAG, "Dispatching ${it.size} sources from API...")
                         newsApiLocalDataSource.saveArticlesListSize(it.size)
                         newsApiLocalDataSource.saveArticlesPageNumber(nextPage)
                     }
