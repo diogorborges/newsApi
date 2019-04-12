@@ -10,11 +10,12 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
-class NewsApiRemoteDataSourceTest: DefaultPluginTestSetup() {
+class NewsApiRemoteDataSourceTest : DefaultPluginTestSetup() {
 
     @InjectMocks
     private lateinit var newApiRemoteDataSource: NewsApiRemoteDataSource
@@ -26,7 +27,7 @@ class NewsApiRemoteDataSourceTest: DefaultPluginTestSetup() {
     fun setup() = MockitoAnnotations.initMocks(this)
 
     @Test
-        fun testGetSources() {
+    fun testGetSources() {
         val sourceResponse = mock(SourcesResponse::class.java)
 
         `when`(newsApiService.getSources()).thenReturn(Single.just(sourceResponse))

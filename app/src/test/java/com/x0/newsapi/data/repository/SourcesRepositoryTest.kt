@@ -4,17 +4,13 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.x0.newsapi.data.local.NewsApiLocalDataSource
-import com.x0.newsapi.data.model.news.Article
-import com.x0.newsapi.data.model.news.NewsResponse
 import com.x0.newsapi.data.model.sources.Source
 import com.x0.newsapi.data.remote.NewsApiRemoteDataSource
 import com.x0.newsapi.test.DefaultPluginTestSetup
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito

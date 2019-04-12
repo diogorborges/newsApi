@@ -7,12 +7,9 @@ import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers
-import org.mockito.ArgumentMatchers.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations

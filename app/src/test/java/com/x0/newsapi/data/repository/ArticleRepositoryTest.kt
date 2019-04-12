@@ -35,21 +35,24 @@ class ArticleRepositoryTest : DefaultPluginTestSetup() {
     @Mock
     private lateinit var context: Context
 
+    private lateinit var networkInfo: NetworkInfo
+
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
+
+        val connectivityManager = Mockito.mock(ConnectivityManager::class.java)
+        networkInfo = Mockito.mock(NetworkInfo::class.java)
+
+        `when`(context.getSystemService("connectivity")).thenReturn(connectivityManager)
+        `when`(connectivityManager.activeNetworkInfo).thenReturn(networkInfo)
     }
 
     @Test
     fun getArticles() {
         val newsResponse = Mockito.mock(NewsResponse::class.java)
-        val connectivityManager = Mockito.mock(ConnectivityManager::class.java)
-        val networkInfo = Mockito.mock(NetworkInfo::class.java)
 
-        `when`(context.getSystemService("connectivity")).thenReturn(connectivityManager)
-        `when`(connectivityManager.activeNetworkInfo).thenReturn(networkInfo)
         `when`(networkInfo.isConnected).thenReturn(true)
-
         `when`(newsApiRemoteDataSource.getArticles("bbc-news", 1)).thenReturn(
             Single.just(
                 newsResponse
@@ -67,11 +70,6 @@ class ArticleRepositoryTest : DefaultPluginTestSetup() {
 
     @Test
     fun getArticlesNetworkException() {
-        val connectivityManager = Mockito.mock(ConnectivityManager::class.java)
-        val networkInfo = Mockito.mock(NetworkInfo::class.java)
-
-        `when`(context.getSystemService("connectivity")).thenReturn(connectivityManager)
-        `when`(connectivityManager.activeNetworkInfo).thenReturn(networkInfo)
         `when`(networkInfo.isConnected).thenReturn(false)
 
         val testObserver = TestObserver<ArrayList<Article>>()
