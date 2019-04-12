@@ -1,6 +1,5 @@
 package com.x0.newsapi.presentation.sourcelist
 
-import android.util.Log
 import com.x0.newsapi.R
 import com.x0.newsapi.common.addTo
 import com.x0.newsapi.data.model.news.Article

@@ -57,5 +57,4 @@ class SourcesPresenterTest : DefaultPluginTestSetup() {
         verify(view).showError(null)
         verify(view).showLoader(false)
     }
-
 }

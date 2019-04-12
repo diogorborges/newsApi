@@ -6,15 +6,13 @@ import com.x0.newsapi.test.DefaultPluginTestSetup
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers
-import org.mockito.ArgumentMatchers.*
+import org.mockito.ArgumentMatchers.anyList
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
-import java.lang.Exception
 
 class NewsPresenterTest : DefaultPluginTestSetup() {
 

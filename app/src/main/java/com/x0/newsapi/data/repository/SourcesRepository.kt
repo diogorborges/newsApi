@@ -42,7 +42,6 @@ class SourcesRepository @Inject constructor(
             true -> {
                 newsApiRemoteDataSource.getSources()
                     .doOnSuccess {
-                        Log.i(TAG, "Dispatching ${it.size} sources from API...")
                         persistSources(it)
                     }
                     .doOnError {

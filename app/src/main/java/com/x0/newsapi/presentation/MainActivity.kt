@@ -1,22 +1,18 @@
 package com.x0.newsapi.presentation
 
-import android.app.FragmentManager
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.x0.newsapi.NewsApiApplication
-import com.x0.newsapi.R
 import com.x0.newsapi.presentation.news.NewsFragment
 import com.x0.newsapi.presentation.sources.SourcesFragment
 import kotlinx.android.synthetic.main.activity_container.toolbar
 import kotlinx.android.synthetic.main.activity_main.navigation
 
 class MainActivity : AppCompatActivity(),
-    BottomNavigationView.OnNavigationItemSelectedListener,
-    BottomNavigationView.OnNavigationItemReselectedListener {
+    BottomNavigationView.OnNavigationItemSelectedListener {
 
     private var title: String = SourcesFragment.TITLE
     private lateinit var fragment: Fragment
@@ -29,14 +25,13 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         NewsApiApplication.instance.applicationComponent.inject(this)
 
-        setContentView(R.layout.activity_main)
+        setContentView(com.x0.newsapi.R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        toolbar.setNavigationOnClickListener { onBackPressed() }
         navigation.setOnNavigationItemSelectedListener(this)
-        navigation.setOnNavigationItemReselectedListener(this)
 
         title = savedInstanceState?.getString(TITLE_KEY) ?: title
 
@@ -47,11 +42,11 @@ class MainActivity : AppCompatActivity(),
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.navigation_sources -> {
+            com.x0.newsapi.R.id.navigation_sources -> {
                 title = SourcesFragment.TITLE
                 fragment = SourcesFragment()
             }
-            R.id.navigation_news -> {
+            com.x0.newsapi.R.id.navigation_news -> {
                 title = NewsFragment.TITLE
                 fragment = NewsFragment()
             }
@@ -70,19 +65,20 @@ class MainActivity : AppCompatActivity(),
 
     private fun changeFragment(fragment: Fragment) {
         supportFragmentManager
-            .popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-
-        supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
             .replace(
-                R.id.main_container, fragment,
+                com.x0.newsapi.R.id.main_container, fragment,
                 FRAGMENT_KEY
             )
             .commit()
     }
 
-    override fun onNavigationItemReselected(item: MenuItem) {
-        Log.i(TAG, "onNavigationItemReselected()")
+    fun showBackButton(show: Boolean) = with(toolbar) {
+        when (show) {
+            true -> navigationIcon =
+                resources.getDrawable(com.x0.newsapi.R.drawable.ic_apps_white_24dp)
+            else -> navigationIcon = null
+        }
     }
 }

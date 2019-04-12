@@ -57,6 +57,8 @@ class SourcesFragment : Fragment(), SourcesContract.View {
     }
 
     private fun setupUI() {
+        (activity as MainActivity).showBackButton(false)
+
         adapter = FlexibleAdapter(ArrayList<AbstractFlexibleItem<*>>())
         adapter.isAnimateChangesWithDiffUtil = true
 
@@ -80,6 +82,7 @@ class SourcesFragment : Fragment(), SourcesContract.View {
         (context as MainActivity)
             .supportFragmentManager
             .beginTransaction()
+            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
             .add(R.id.main_container, fragment, MainActivity.FRAGMENT_KEY)
             .addToBackStack(null)
             .commit()

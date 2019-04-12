@@ -70,9 +70,7 @@ class NewsRepository @Inject constructor(
                     }
                     .map { it.articles }
                     .map { nextNews ->
-                        nextNews.forEach {
-                            currentNews.add(it)
-                        }
+                        currentNews.addAll(nextNews)
                         currentNews
                     }
                     .doOnSuccess {
