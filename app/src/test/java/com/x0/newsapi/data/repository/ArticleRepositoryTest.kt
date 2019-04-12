@@ -17,6 +17,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
@@ -62,6 +63,23 @@ class ArticleRepositoryTest : DefaultPluginTestSetup() {
         verify(newsApiLocalDataSource).saveArticlesListSize(ArgumentMatchers.anyInt())
         verify(newsApiLocalDataSource).saveArticlesPageNumber(ArgumentMatchers.anyInt())
         verify(newsApiLocalDataSource).saveArticlesTotalResult(ArgumentMatchers.anyInt())
+    }
+
+    @Test
+    fun getArticlesNetworkException() {
+        val connectivityManager = Mockito.mock(ConnectivityManager::class.java)
+        val networkInfo = Mockito.mock(NetworkInfo::class.java)
+
+        `when`(context.getSystemService("connectivity")).thenReturn(connectivityManager)
+        `when`(connectivityManager.activeNetworkInfo).thenReturn(networkInfo)
+        `when`(networkInfo.isConnected).thenReturn(false)
+
+        val testObserver = TestObserver<ArrayList<Article>>()
+        articleRepository.getArticles("bbc-news", 1).subscribe(testObserver)
+
+        verify(newsApiLocalDataSource, never()).saveArticlesListSize(ArgumentMatchers.anyInt())
+        verify(newsApiLocalDataSource, never()).saveArticlesPageNumber(ArgumentMatchers.anyInt())
+        verify(newsApiLocalDataSource, never()).saveArticlesTotalResult(ArgumentMatchers.anyInt())
     }
 
     @Test
