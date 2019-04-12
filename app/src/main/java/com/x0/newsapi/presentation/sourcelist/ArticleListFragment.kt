@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.x0.newsapi.NewsApiApplication
-import com.x0.newsapi.R
 import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.inflate
 import com.x0.newsapi.common.visible
 import com.x0.newsapi.data.model.sources.Source
+import com.x0.newsapi.presentation.MainActivity
 import com.x0.newsapi.presentation.sources.SourcesFragment
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
@@ -46,7 +46,7 @@ class ArticleListFragment : Fragment(), ArticleListContract.View,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? =
-        container?.inflate(R.layout.fragment_generic_news)
+        container?.inflate(com.x0.newsapi.R.layout.fragment_generic_news)
 
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,6 +64,7 @@ class ArticleListFragment : Fragment(), ArticleListContract.View,
 
     private fun setupUI() {
         swipeRefresh.setOnRefreshListener(this)
+        (activity as MainActivity).showBackButton(true)
 
         adapter = FlexibleAdapter(ArrayList<AbstractFlexibleItem<*>>())
         adapter.isAnimateChangesWithDiffUtil = true
@@ -104,6 +105,11 @@ class ArticleListFragment : Fragment(), ArticleListContract.View,
             Log.e(TAG, "Error: $it")
             showErrorMessage()
         }
+    }
+
+    override fun onDetach() {
+        (activity as MainActivity).showBackButton(false)
+        super.onDetach()
     }
 
     override fun onDestroy() {

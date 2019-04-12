@@ -14,6 +14,7 @@ import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.common.gone
 import com.x0.newsapi.common.inflate
 import com.x0.newsapi.common.visible
+import com.x0.newsapi.presentation.MainActivity
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import kotlinx.android.synthetic.main.fragment_generic_news.errorText
@@ -61,6 +62,7 @@ class NewsFragment : Fragment(), NewsContract.View, OnRefreshListener {
 
     private fun setupUI() {
         swipeRefresh.setOnRefreshListener(this)
+        (activity as MainActivity).showBackButton(false)
 
         adapter = FlexibleAdapter(ArrayList<AbstractFlexibleItem<*>>())
         adapter.isAnimateChangesWithDiffUtil = true
