@@ -3,7 +3,7 @@
     <string name="title_news">News</string>
     <string name="title_sources">Sources</string>
     <string name="news_header">Your latest worldwide news</string>
-    <string name="sources_header">Stay tuned on\nyour favorite\nnews channel!</string>
+    <string name="sources_header">Stay tuned on your favorite news channel!</string>
     <string name="article_header">Your latest articles</string>
     <string name="error_text">Please try again.</string>
 </resources>

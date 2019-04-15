@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.x0.newsapi.NewsApiApplication
 import com.x0.newsapi.R
 import com.x0.newsapi.common.gone
@@ -63,7 +63,7 @@ class SourcesFragment : Fragment(), SourcesContract.View {
         adapter.isAnimateChangesWithDiffUtil = true
 
         sourcesList.adapter = adapter
-        sourcesList.layoutManager = GridLayoutManager(context, 2)
+        sourcesList.layoutManager = LinearLayoutManager(context)
         sourcesList.isNestedScrollingEnabled = true
     }
 
