@@ -6,6 +6,7 @@
     <dimen name="default_margin_size">16dp</dimen>
 
     <!-- Icon -->
+    <dimen name="medium_icon_size">32dp</dimen>
     <dimen name="x_large_icon_size">64dp</dimen>
 
     <!-- Text -->

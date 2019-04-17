@@ -79,7 +79,7 @@ class GenericListItem(
         }
 
         private fun setTitleText(article: Article) = with(titleText) {
-            text = article.source.name
+            text = article.title
         }
 
         private fun setDescriptionText(article: Article) = with(descriptionText) {
