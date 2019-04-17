@@ -63,7 +63,7 @@ class NewsRepository @Inject constructor(
                             StatusType.STATUS_OK.toLowerCase() -> {
                                 Single.just(it)
                             }
-                            else -> Single.error(NetworkException())
+                            else -> Single.error(FailureException())
                         }
                     }
                     .doAfterSuccess {
