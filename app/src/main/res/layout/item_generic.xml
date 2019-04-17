@@ -71,7 +71,6 @@
         tools:text="2019-04-10T11:07:00Z" />
 
     <View
-        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginTop="@dimen/default_margin_size"
@@ -79,11 +78,5 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/publishedDayText" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="left" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
