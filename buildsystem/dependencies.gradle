@@ -17,6 +17,8 @@ ext {
     roomVersion = '2.0.0-rc01'
     glideVersion = '4.8.0'
     apacheVersion = '2.4'
+    espressoVersion = '3.1.0'
+    rulesVersion = '1.2.0-alpha03'
 
     uiDependencies = [
             flexibleAdapter  : "eu.davidea:flexible-adapter:${flexibleAdapterVersion}",
@@ -51,7 +53,9 @@ ext {
             mockitoInline: "org.mockito:mockito-inline:$mockitoInlineVersion",
             testRunner   : "androidx.test:runner:$testrunnerVersion",
             junit        : "junit:junit:$junitVersion",
-            json         : "org.json:json:$jsonVersion"
+            json         : "org.json:json:$jsonVersion",
+            espresso     : "androidx.test.espresso:espresso-core:$espressoVersion",
+            rules        : "androidx.test:rules:$rulesVersion"
     ]
 
     rxDependencies = [

@@ -66,6 +66,8 @@ dependencies {
 
     testImplementation testDependencies.mockito
     testImplementation testDependencies.mockitoInline
+    androidTestImplementation testDependencies.espresso
+    androidTestImplementation testDependencies.rules
     testImplementation testDependencies.testRunner
     testImplementation testDependencies.junit
     testImplementation testDependencies.json

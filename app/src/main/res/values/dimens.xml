@@ -3,6 +3,7 @@
 
     <!-- Margin -->
     <dimen name="small_margin_size">8dp</dimen>
+    <dimen name="medium_margin_size">12dp</dimen>
     <dimen name="default_margin_size">16dp</dimen>
 
     <!-- Icon -->
