@@ -4,8 +4,8 @@ import com.x0.newsapi.R
 import com.x0.newsapi.common.addTo
 import com.x0.newsapi.data.model.news.Article
 import com.x0.newsapi.data.usecase.ArticleUseCase
-import com.x0.newsapi.presentation.ui.ListHeader
 import com.x0.newsapi.presentation.ui.GenericListItem
+import com.x0.newsapi.presentation.ui.ListHeader
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
