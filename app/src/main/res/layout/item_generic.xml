@@ -36,7 +36,7 @@
         android:id="@+id/descriptionText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin_size"
+        android:layout_marginTop="@dimen/medium_margin_size"
         android:textColor="@color/colorNavigationItemDefault"
         android:textSize="@dimen/small_text_size"
         app:layout_constraintLeft_toLeftOf="parent"
