@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import com.x0.newsapi.common.ListUtils
 import com.x0.newsapi.common.hasNetwork
+import com.x0.newsapi.data.FailureException
 import com.x0.newsapi.data.NetworkException
 import com.x0.newsapi.data.local.NewsApiLocalDataSource
 import com.x0.newsapi.data.model.news.Article
@@ -99,7 +100,7 @@ class NewsRepository @Inject constructor(
                             StatusType.STATUS_OK.toLowerCase() -> {
                                 Single.just(it)
                             }
-                            else -> Single.error(NetworkException())
+                            else -> Single.error(FailureException())
                         }
                     }
                     .doAfterSuccess {
