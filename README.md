@@ -14,6 +14,6 @@ MVP Android application using the News Api
   - UI: FlexibleAdapter and Glide
   - Google: AppCompat, Material, CardView, RecyclerView, Constraint, Dagger and Room
   - Square: Retrofit and OkHttp
-  - Test: Mockito
+  - Test: Mockito and Espresso
   - Rx: RxJava and RxAndroid
   - Kotlin: Kotlin, KTlint and KTX
