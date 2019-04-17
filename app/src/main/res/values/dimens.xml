@@ -17,4 +17,7 @@
     <dimen name="margin_size">50dp</dimen>
     <dimen name="width_size">150dp</dimen>
 
+    <!-- Header -->
+    <dimen name="header_margin_top">30dp</dimen>
+
 </resources>

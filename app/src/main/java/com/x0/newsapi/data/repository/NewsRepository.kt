@@ -75,11 +75,11 @@ class NewsRepository @Inject constructor(
                         currentNews
                     }
                     .doOnSuccess {
-                        Log.i(TAG, "Removing old new from DB...")
+                        Log.i(TAG, "Removing old news from DB...")
                         deleteNews()
                     }
                     .doAfterSuccess {
-                        Log.i(TAG, "Merging ${it.size} new from API/DB...")
+                        Log.i(TAG, "Merging ${it.size} news from API/DB...")
                         persistNews(it, nextPage)
                     }
                     .doOnError {
