@@ -116,7 +116,10 @@ class ArticleListPresenter @Inject constructor(
 
     private fun onError(throwable: Throwable) = view.showError(throwable.message)
 
-    fun clearArticles() = articleUseCase.clearArticles()
+    fun clearArticles() {
+        view.clearArticleList()
+        articleUseCase.clearArticles()
+    }
 
     fun destroy() = compositeDisposable.dispose()
 }
